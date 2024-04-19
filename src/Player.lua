@@ -21,6 +21,9 @@ function Player:init(opt)
       jump = function () return PlayerJumpState(self) end,
       walking = function () return PlayerWalkingState(self) end
     },
+
+    -- environment
+    tileMap = opt.tileMap
   })
 
   self.stateMachine:change('idle')

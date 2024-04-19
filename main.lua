@@ -5,12 +5,25 @@ require 'dependencies'
 function love.load()
   love.graphics.setDefaultFilter('nearest', 'nearest')
 
+  -- fonts
+  gFonts = {
+    small = love.graphics.newFont('fonts/font.ttf', 8),
+    medium = love.graphics.newFont('fonts/font.ttf', 16),
+    large = love.graphics.newFont('fonts/font.ttf', 32)
+  }
+
   -- load graphics
   gTextures = {
     main = love.graphics.newImage('graphics/full_sheet.png')
   }
   gFrames = {
-    player = genQuads(gTextures['main'], 16, 20, nil, 348, 176, 368)
+    bg = genQuads(gTextures['main'], 256, 128, 464, 16, 720, 400),
+    player = genQuads(gTextures['main'], 16, 20, nil, 348, 176, 368),
+
+    ladder = genQuads(gTextures['main'], 16, 16, nil, 256, 16, 288),
+    tiles = genTiles(gTextures['main']),
+    tileTops = genTileTops(gTextures['main']),
+    water = genWater(gTextures['main'])
   }
 
   push:setupScreen(
@@ -20,14 +33,17 @@ function love.load()
   )
 
   -- register key aliases
+  Keys.setAlias('down', 's')
   Keys.setAlias('left', 'a')
   Keys.setAlias('right', 'd')
+  Keys.setAlias('up', 'w')
 
   -- define game states
   gStateMachine = StateMachine {
-    play = function () return GamePlayState() end
+    play = function () return GamePlayState() end,
+    test = function () return GameTestState() end
   }
-  gStateMachine:change('play')
+  gStateMachine:change('test')
 end
 
 function love.draw()

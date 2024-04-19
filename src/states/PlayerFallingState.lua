@@ -29,7 +29,7 @@ function PlayerFallingState:update(dt)
 
   if self.entity.y > 100 then
     self.entity.y = 100
-    self.entity.stateMachine:change('idle')
+    self.entity:changeState('idle')
   end
 
   self.animation:update(dt)

@@ -21,11 +21,11 @@ function PlayerWalkingState:update(dt)
     not Keys.wasPressed('left') and
     not Keys.wasPressed('right')
   then
-    self.entity.stateMachine:change('idle')
+    self.entity:changeState('idle')
   end
 
   if Keys.wasPressed('space') then
-    self.entity.stateMachine:change('jump')
+    self.entity:changeState('jump')
   end
 
   self.entity.dx = 60 * (1 - 2 * self.entity.direction)

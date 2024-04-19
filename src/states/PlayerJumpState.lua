@@ -32,7 +32,7 @@ function PlayerJumpState:update(dt)
   self.entity.x = self.entity.x + self.entity.dx * dt
 
   if self.entity.dy >= 0 then
-    self.entity.stateMachine:change('falling')
+    self.entity:changeState('falling')
   end
 
   self.animation:update(dt)

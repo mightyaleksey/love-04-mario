@@ -15,11 +15,11 @@ function PlayerIdleState:update(dt)
     Keys.wasPressed('left') or
     Keys.wasPressed('right')
   then
-    self.entity.stateMachine:change('walking')
+    self.entity:changeState('walking')
   end
 
   if Keys.wasPressed('space') then
-    self.entity.stateMachine:change('jump')
+    self.entity:changeState('jump')
   end
 
   self.animation:update(dt)

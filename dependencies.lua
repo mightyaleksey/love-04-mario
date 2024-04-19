@@ -9,16 +9,19 @@ Keys = require 'src/Keys'
 require 'src/constants'
 require 'src/util'
 require 'src/utilSprite'
+require 'src/utilMario'
 
 -- entities
 require 'src/Animation'
 require 'src/Entity'
+require 'src/LevelMaker'
 require 'src/Player'
 
 -- states
 require 'src/StateMachine'
 require 'src/states/BaseState'
 require 'src/states/GamePlayState'
+require 'src/states/GameTestState'
 require 'src/states/PlayerFallingState'
 require 'src/states/PlayerIdleState'
 require 'src/states/PlayerJumpState'

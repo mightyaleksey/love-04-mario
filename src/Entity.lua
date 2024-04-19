@@ -5,6 +5,8 @@ function Entity:init(opt)
   defineProperties(self, opt, { 'x', 'y' })
   -- dimensions
   defineProperties(self, opt, { 'width', 'height', 'frames', 'texture', 'stateMachine' })
+  -- environment
+  defineProperties(self, opt, { 'tileMap' })
 
   self.currentAnimation = nil
   self.direction = DIRECTION_LEFT
@@ -28,4 +30,10 @@ end
 
 function Entity:update(dt)
   self.stateMachine:update(dt)
+end
+
+--[[ helpers ]]
+
+function Entity:changeState(name, opt)
+  self.stateMachine:change(name, opt)
 end
