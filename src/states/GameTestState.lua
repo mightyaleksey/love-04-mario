@@ -1,5 +1,5 @@
 function renderTilePack(frames, columns, columnWidth, offsetRow)
-  local offsetX = (VIRTUAL_WIDTH - (columns - 1) * columnWidth - 16) / 2
+  local offsetX = (VIRTUAL_WIDTH - (columns - 1) * columnWidth - TILE_SIZE) / 2
 
   for k = 1, #frames do
     x = ((k - 1) % columns) * columnWidth + offsetX

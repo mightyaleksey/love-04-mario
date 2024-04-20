@@ -12,24 +12,27 @@ function PlayerJumpState:init(entity)
 end
 
 function PlayerJumpState:enter()
-  self.entity.dy = -150
+  self.entity.dy = -PLAYER_JUMP_VELOCITY
 end
 
 function PlayerJumpState:update(dt)
+  -- handle input
   if
     Keys.wasPressed('left') or
     Keys.wasPressed('right')
   then
     self.entity.direction = Keys.wasPressed('left')
       and DIRECTION_LEFT or DIRECTION_RIGHT
-    self.entity.dx = 60 * (1 - 2 * self.entity.direction)
+    self.entity.dx = PLAYER_WALK_SPEED * (1 - 2 * self.entity.direction)
+    self.entity.x = math.max(self.entity.x + self.entity.dx * dt, 0)
+    self.entity:checkHorizontalCollisions()
   else
     self.entity.dx = 0
   end
 
+  -- update state
   self.entity.dy = self.entity.dy + self.gravity
   self.entity.y = self.entity.y + self.entity.dy * dt
-  self.entity.x = self.entity.x + self.entity.dx * dt
 
   if self.entity.dy >= 0 then
     self.entity:changeState('falling')

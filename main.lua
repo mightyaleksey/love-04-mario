@@ -3,6 +3,7 @@ require 'dependencies'
 --[[ load & rendering ]]
 
 function love.load()
+  love.window.setTitle('Mario')
   love.graphics.setDefaultFilter('nearest', 'nearest')
 
   -- fonts
@@ -43,7 +44,7 @@ function love.load()
     play = function () return GamePlayState() end,
     test = function () return GameTestState() end
   }
-  gStateMachine:change('test')
+  gStateMachine:change('play')
 end
 
 function love.draw()

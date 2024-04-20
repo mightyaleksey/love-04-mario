@@ -43,27 +43,29 @@ function genTileTops(atlas)
   local spritesheet = {}
   local sheetCounter = 0
 
-  for x = 0, 2 do
+  local map = {
+    16, 576,
+    32, 576,
+    48, 576,
+    16, 592,
+    16, 608,
+    48, 592,
+    48, 608
+  }
+
+  for x = 0, 5 do
     for y = 0, 17 do
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 0, 64 * y + 608, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 16, 64 * y + 592, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 16, 64 * y + 608, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 48, 64 * y + 592, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 48, 64 * y + 608, 16, 16, atlas:getDimensions())
+      for k = 1, #map, 2 do
+        sheetCounter = sheetCounter + 1
+        spritesheet[sheetCounter] =
+          love.graphics.newQuad(
+            80 * x + map[k],
+            64 * y + map[k + 1],
+            16,
+            16,
+            atlas:getDimensions()
+          )
+      end
     end
   end
 

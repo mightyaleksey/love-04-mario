@@ -16,6 +16,8 @@ require 'src/Animation'
 require 'src/Entity'
 require 'src/LevelMaker'
 require 'src/Player'
+require 'src/Tile'
+require 'src/TileMap'
 
 -- states
 require 'src/StateMachine'

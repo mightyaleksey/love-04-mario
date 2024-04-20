@@ -26,7 +26,7 @@ function Player:init(opt)
     tileMap = opt.tileMap
   })
 
-  self.stateMachine:change('idle')
+  self.stateMachine:change('falling')
 end
 
 function Player:render()
@@ -35,4 +35,32 @@ end
 
 function Player:update(dt)
   Entity.update(self, dt)
+end
+
+--[[ helpers ]]
+
+function Player:checkHorizontalCollisions()
+  if self.direction == DIRECTION_LEFT then
+    local leftTile = self:getLeftTile()
+
+    if
+      leftTile and
+      leftTile:collidable() and
+      collides(self, leftTile)
+    then
+      self.dx = 0
+      self.x = leftTile.x + leftTile.width
+    end
+  else
+    local rightTile = self:getRightTile()
+
+    if
+      rightTile and
+      rightTile:collidable() and
+      collides(self, rightTile)
+    then
+      self.dx = 0
+      self.x = rightTile.x - self.width
+    end
+  end
 end

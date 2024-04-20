@@ -37,3 +37,35 @@ end
 function Entity:changeState(name, opt)
   self.stateMachine:change(name, opt)
 end
+
+function Entity:getBottomLeftTile()
+  return self.tileMap:pointToTile(
+    self.x + 1,
+    self.y + self.height + 1
+  )
+end
+
+function Entity:getBottomRightTile()
+  return self.tileMap:pointToTile(
+    self.x + self.width - 1,
+    self.y + self.height + 1
+  )
+end
+
+function Entity:getLeftTile()
+  -- technically Y should be reduced by tile size as well,
+  -- however, in this particular setup jumps work better
+  return self.tileMap:pointToTile(
+    self.x - 2,
+    self.y + self.height - 2
+  )
+end
+
+function Entity:getRightTile()
+  -- technically Y should be reduced by tile size as well,
+  -- however, in this particular setup jumps work better
+  return self.tileMap:pointToTile(
+    self.x + self.width + 2,
+    self.y + self.height - 2
+  )
+end

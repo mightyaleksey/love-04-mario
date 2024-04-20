@@ -5,6 +5,56 @@ function defineProperties(obj, source, props)
   end
 end
 
+--[[ math ]]
+
 function round(value)
   return math.floor(value + 0.5)
+end
+
+--[[ table ]]
+
+function findIndex(collection, predicate)
+  assert(type(predicate) == 'function')
+
+  for index, elem in ipairs(collection) do
+    if predicate(elem) then
+      return index
+    end
+  end
+
+  return -1
+end
+
+function findKey(collection, predicate)
+  assert(type(predicate) == 'function')
+
+  for key, elem in pairs(collection) do
+    if predicate(elem) then
+      return key
+    end
+  end
+
+  return nil
+end
+
+--[[ collisions ]]
+
+function collides(left, right)
+  if
+    -- horizontal
+    left.x > right.x + right.width or
+    left.x + left.width < right.x
+  then
+    return false
+  end
+
+  if
+    -- vertical
+    left.y > right.y + right.height or
+    left.y + left.height < right.y
+  then
+    return false
+  end
+
+  return true
 end
