@@ -25,8 +25,10 @@ function TileMap:render(scrollX)
       if DEBUG == 1 then
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.setFont(gFonts['small'])
+        -- love.graphics.print(tostring(x), tile.x, tile.y)
+        -- love.graphics.print(tostring(y), tile.x, tile.y + 6)
         love.graphics.print(tostring(x), tile.x, tile.y)
-        love.graphics.print(tostring(y), tile.x, tile.y + 6)
+        love.graphics.print(tostring(tile.topologyID), tile.x, tile.y + 6)
       end
     end
   end
@@ -51,4 +53,33 @@ function TileMap:pointToTile(x, y)
   end
 
   return self.tiles[column][row]
+end
+
+function TileMap:toTopology(mapX, mapY)
+  -- https://stackoverflow.com/questions/53134234/creating-2d-angled-top-down-terrain-instead-of-fully-flat/53977115#53977115
+  local localTopology = {
+    getTopologyID(self.tiles, mapX - 1, mapY + 1),
+    getTopologyID(self.tiles, mapX, mapY + 1),
+    getTopologyID(self.tiles, mapX + 1, mapY + 1),
+
+    getTopologyID(self.tiles, mapX - 1, mapY),
+    getTopologyID(self.tiles, mapX, mapY),
+    getTopologyID(self.tiles, mapX + 1, mapY),
+
+    getTopologyID(self.tiles, mapX - 1, mapY - 1),
+    getTopologyID(self.tiles, mapX, mapY - 1),
+    getTopologyID(self.tiles, mapX + 1, mapY - 1)
+  }
+  return tonumber(table.concat(localTopology), 2)
+end
+
+--[[ utils ]]
+
+function getTopologyID(map, mapX, mapY)
+  return (
+    map[mapX] and
+    map[mapX][mapY] and
+    map[mapX][mapY].tileID == TILE_ID_GROUND and
+    1 or 0
+  )
 end

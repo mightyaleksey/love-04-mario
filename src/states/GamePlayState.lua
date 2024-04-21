@@ -13,12 +13,12 @@ function GamePlayState:enter()
   self.tileMap = LevelMaker.generate(64, 18)
 
   local startX = findIndex(self.tileMap.tiles, function (column)
-    return column[1].tileID ~= TILE_WATER_TOP
+    return not column[1]:isWater()
   end)
 
   self.player = Player {
-    x = TILE_SIZE * (startX - 1),
-    y = TILE_SIZE * 10,
+    x = (startX - 1) * TILE_SIZE,
+    y = VIRTUAL_HEIGHT - 7 * TILE_SIZE,
 
     tileMap = self.tileMap
   }

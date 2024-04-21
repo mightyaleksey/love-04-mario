@@ -26,7 +26,8 @@ function Player:init(opt)
     tileMap = opt.tileMap
   })
 
-  self.stateMachine:change('falling')
+  -- self.stateMachine:change('falling')
+  self.stateMachine:change('idle')
 end
 
 function Player:render()

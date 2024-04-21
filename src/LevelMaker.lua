@@ -13,73 +13,89 @@ function LevelMaker.generate(width, height)
   -- tileMap[columns][rows]
   local tileMap = {}
 
-  -- initialize matrix
-  for column = 1, width do
-    table.insert(tileMap, {})
-  end
-
+  local surface = {}
+  local surfaceType = round(math.random(0, 1))
+  local waterLength = 0
   local islandLength = 0
+  local islandHeight = 0
+  local islandInterval = 0
 
-  -- generate ground
-  local column = math.random(0, 5)
-  while column <= width do
-    if islandLength == 0 then
-      islandLength = math.random(10, 20)
-    end
-
-    -- todo: convert IDs to Tiles
-    tileMap[column][2] = TILE_GROUND_DEPTH
-
-    if islandLength == 1 then
-      column = column + math.random(2, 10)
-    end
-
-    islandLength = islandLength - 1
-    column = column + 1
-  end
-
-  -- normalize surface
+  -- generate surface
   for column = 1, width do
-    local surfaceIndex = findKey(tileMap[column],
-      function (elem) return elem == TILE_GROUND_DEPTH end)
+    if islandLength == 0 and waterLength == 0 then
+      if surfaceType == 0 then
+        surfaceType = 1
+        islandLength = math.random(10, 20)
+      else
+        surfaceType = 0
+        waterLength = math.random(2, 10)
+      end
+    end
 
-    if surfaceIndex == nil then
-      tileMap[column][1] = Tile(TILE_WATER_TOP, column, 1)
-    else
-      for row = 1, surfaceIndex do
-        tileMap[column][row] = Tile(TILE_GROUND_DEPTH, column, row)
+    if islandLength > 0 then
+      if islandInterval == 0 then
+        islandInterval = math.random(4, 6)
+        islandHeight = math.random(2, 4)
       end
 
-      tileMap[column][surfaceIndex] = Tile(TILE_GROUND_TOP, column, surfaceIndex)
+      surface[column] = islandHeight
+      islandInterval = islandInterval - 1
+      islandLength = islandLength - 1
+    end
+
+    if waterLength > 0 then
+      surface[column] = 0
+      waterLength = waterLength - 1
+    end
+  end
+
+  local islandIndex = findIndex(surface, function (h) return h > 0 end)
+  local waterIndex = nil
+
+  -- generate matrix
+  for column = 1, width do
+    table.insert(tileMap, {})
+
+    if surface[column] > 0 then
+      for row = 1, surface[column] do
+        tileMap[column][row] = Tile(TILE_ID_GROUND, column, row)
+      end
+
+      if waterIndex == 1 then
+        waterIndex = nil
+      end
+
+      if waterIndex ~= nil then
+        local height = waterIndex > 1 and 6 - #tileMap[waterIndex - 1] or 3
+
+        for t = waterIndex + 2, column - 3 do
+          for u = 2, height - 1 do
+            tileMap[t][u] = Tile(TILE_ID_EMPTY, t, u)
+          end
+
+          tileMap[t][height] = Tile(TILE_ID_GROUND, t, height)
+        end
+
+        waterIndex = nil
+      end
+    else
+      tileMap[column][1] = Tile(TILE_ID_WATER, column, 1)
+
+      if waterIndex == nil then
+        waterIndex = column
+      end
     end
   end
 
   local map = TileMap(width, height)
   map.tiles = tileMap
 
-  return map
-end
-
--- [0, 0]: left bottom corner
-function LevelMaker.renderTile(tileID, mapX, mapY)
-  if tileID > 0 and tileID < 20 then
-    love.graphics.draw(
-      gTextures['main'], gFrames['water'][tileID],
-      TILE_SIZE * (mapX - 1), VIRTUAL_HEIGHT - TILE_SIZE * mapY
-    )
-  end
-
-  if tileID > 20 then
-    love.graphics.draw(
-      gTextures['main'], gFrames['tiles'][183],
-      TILE_SIZE * (mapX - 1), VIRTUAL_HEIGHT - TILE_SIZE * mapY
-    )
-
-    if tileID == TILE_GROUND_TOP then
-      love.graphics.draw(
-        gTextures['main'], gFrames['tileTops'][191],
-        TILE_SIZE * (mapX - 1), VIRTUAL_HEIGHT - TILE_SIZE * mapY
-      )
+  -- set topology
+  for column = 1, width do
+    for row = 1, #tileMap[column] do
+      tileMap[column][row].topologyID = map:toTopology(column, row)
     end
   end
+
+  return map
 end

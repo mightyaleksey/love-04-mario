@@ -37,6 +37,16 @@ function findKey(collection, predicate)
   return nil
 end
 
+function includes(collection, elem)
+  for _, a in ipairs(collection) do
+    if a == elem then
+      return true
+    end
+  end
+
+  return false
+end
+
 --[[ collisions ]]
 
 function collides(left, right)

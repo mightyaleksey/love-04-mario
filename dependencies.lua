@@ -16,6 +16,7 @@ require 'src/Animation'
 require 'src/Entity'
 require 'src/LevelMaker'
 require 'src/Player'
+require 'src/Snail'
 require 'src/Tile'
 require 'src/TileMap'
 

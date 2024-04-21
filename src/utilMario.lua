@@ -3,35 +3,28 @@ function genTiles(atlas)
   local spritesheet = {}
   local sheetCounter = 0
 
-  for x = 0, 2 do
+  local map = {
+    512, 592,
+    496, 592,
+    528, 592,
+    496, 576,
+    528, 576,
+    480, 576
+  }
+
+  for x = 0, 5 do
     for y = 0, 9 do
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 512, 64 * y + 608, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 512, 64 * y + 576, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 480, 64 * y + 576, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 496, 64 * y + 576, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 528, 64 * y + 576, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 496, 64 * y + 592, 16, 16, atlas:getDimensions())
-
-      sheetCounter = sheetCounter + 1
-      spritesheet[sheetCounter] =
-        love.graphics.newQuad(80 * x + 528, 64 * y + 592, 16, 16, atlas:getDimensions())
+      for k = 1, #map, 2 do
+        sheetCounter = sheetCounter + 1
+        spritesheet[sheetCounter] =
+          love.graphics.newQuad(
+            80 * x + map[k],
+            64 * y + map[k + 1],
+            16,
+            16,
+            atlas:getDimensions()
+          )
+      end
     end
   end
 
