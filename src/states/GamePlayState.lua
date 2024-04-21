@@ -12,8 +12,12 @@ function GamePlayState:enter()
   -- level specific
   self.tileMap = LevelMaker.generate(64, 18)
 
+  local startX = findIndex(self.tileMap.tiles, function (column)
+    return column[1].tileID ~= TILE_WATER_TOP
+  end)
+
   self.player = Player {
-    x = TILE_SIZE,
+    x = TILE_SIZE * (startX - 1),
     y = TILE_SIZE * 10,
 
     tileMap = self.tileMap
@@ -27,11 +31,16 @@ function GamePlayState:render()
   self:renderBg()
 
   -- debug
-  love.graphics.setColor(0.2, 0.8, 0.2, 1)
-  love.graphics.setFont(gFonts['small'])
-  love.graphics.print('x: '..tostring(self.player.x), 10, 10)
-  love.graphics.print('y: '..tostring(self.player.y), 10, 22)
-  love.graphics.setColor(1, 1, 1, 1)
+  if DEBUG == 1 then
+    love.graphics.setColor(0.5, 0.5, 0.5, 1)
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.print('x: '..tostring(self.player.x), 10, 10)
+    love.graphics.print('y: '..tostring(self.player.y), 10, 18)
+
+    local mapX, mapY = self.tileMap:pointToMap(self.player.x, self.player.y)
+    love.graphics.print('mapX: '..tostring(mapX), 10, 26)
+    love.graphics.print('mapY: '..tostring(mapY), 10, 34)
+  end
 
   -- emulate camera effect
   love.graphics.translate(-round(self.camX), -round(self.camY))
@@ -47,6 +56,10 @@ function GamePlayState:update(dt)
 
   if Keys.wasPressed('t') then
     gStateMachine:change('test')
+  end
+
+  if Keys.wasPressed('y') then
+    DEBUG = DEBUG == 0 and 1 or 0
   end
 
   self.player:update(dt)

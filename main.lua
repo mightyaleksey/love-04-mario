@@ -65,4 +65,5 @@ end
 
 function love.update(dt)
   gStateMachine:update(dt)
+  Keys.update(dt)
 end

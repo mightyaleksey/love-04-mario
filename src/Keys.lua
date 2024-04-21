@@ -30,4 +30,7 @@ function Keys.keyreleased(key)
   Keys._state[key] = nil
 end
 
+function Keys.update()
+end
+
 return Keys

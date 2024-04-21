@@ -17,6 +17,9 @@ function Entity:init(opt)
 end
 
 function Entity:render()
+  -- reset color
+  love.graphics.setColor(1, 1, 1, 1)
+
   love.graphics.draw(
     self.texture,
     self.frames[self.currentAnimation:getCurrentFrame()],

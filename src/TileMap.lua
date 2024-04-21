@@ -16,7 +16,18 @@ function TileMap:render(scrollX)
 
   for x = leftX, rightX do
     for y = 1, #self.tiles[x] do
-      self.tiles[x][y]:render()
+      assert(self.tiles[x], 'TileMap: x = '..tostring(x)..' is nil')
+      assert(self.tiles[x][y], 'TileMap: x, y = '..tostring(x)..', '..tostring(y)..' is nil')
+
+      local tile = self.tiles[x][y]
+      tile:render()
+
+      if DEBUG == 1 then
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.setFont(gFonts['small'])
+        love.graphics.print(tostring(x), tile.x, tile.y)
+        love.graphics.print(tostring(y), tile.x, tile.y + 6)
+      end
     end
   end
 end

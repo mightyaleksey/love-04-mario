@@ -14,6 +14,9 @@ function Tile:init(tileID, mapX, mapY)
 end
 
 function Tile:render()
+  -- reset color
+  love.graphics.setColor(1, 1, 1, 1)
+
   if self:isWater() then
     love.graphics.draw(
       gTextures['main'],

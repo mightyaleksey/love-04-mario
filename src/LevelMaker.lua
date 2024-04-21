@@ -8,7 +8,7 @@ LevelMaker = Class{}
 -- 32 x 18: viewport size
 function LevelMaker.generate(width, height)
   -- sets seed, so the level generation will reproducable
-  math.randomseed(width, height)
+  -- math.randomseed(width, height)
 
   -- tileMap[columns][rows]
   local tileMap = {}
@@ -21,7 +21,7 @@ function LevelMaker.generate(width, height)
   local islandLength = 0
 
   -- generate ground
-  local column = 1
+  local column = math.random(0, 5)
   while column <= width do
     if islandLength == 0 then
       islandLength = math.random(10, 20)
@@ -53,11 +53,6 @@ function LevelMaker.generate(width, height)
       tileMap[column][surfaceIndex] = Tile(TILE_GROUND_TOP, column, surfaceIndex)
     end
   end
-
-  -- todo remove
-  tileMap[1][3] = Tile(TILE_GROUND_DEPTH, 1, 3)
-  tileMap[6][3] = Tile(TILE_GROUND_DEPTH, 6, 3)
-  tileMap[6][4] = Tile(TILE_GROUND_DEPTH, 6, 4)
 
   local map = TileMap(width, height)
   map.tiles = tileMap
