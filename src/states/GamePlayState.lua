@@ -32,14 +32,16 @@ function GamePlayState:render()
 
   -- debug
   if DEBUG == 1 then
-    love.graphics.setColor(0.5, 0.5, 0.5, 1)
+    displayFPS()
+
+    love.graphics.setColor(0.6, 0.6, 1, 1)
     love.graphics.setFont(gFonts['small'])
-    love.graphics.print('x: '..tostring(self.player.x), 10, 10)
-    love.graphics.print('y: '..tostring(self.player.y), 10, 18)
+    love.graphics.print('x: '..tostring(self.player.x), 5, 20)
+    love.graphics.print('y: '..tostring(self.player.y), 5, 28)
 
     local mapX, mapY = self.tileMap:pointToMap(self.player.x, self.player.y)
-    love.graphics.print('mapX: '..tostring(mapX), 10, 26)
-    love.graphics.print('mapY: '..tostring(mapY), 10, 34)
+    love.graphics.print('mapX: '..tostring(mapX), 5, 36)
+    love.graphics.print('mapY: '..tostring(mapY), 5, 44)
   end
 
   -- emulate camera effect

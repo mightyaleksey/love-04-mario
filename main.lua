@@ -67,3 +67,12 @@ function love.update(dt)
   gStateMachine:update(dt)
   Keys.update(dt)
 end
+
+-- helpers
+
+function displayFPS()
+  -- renders frames per second
+  love.graphics.setColor(0.6, 0.6, 1, 1)
+  love.graphics.setFont(gFonts.small)
+  love.graphics.print('FPS: '..tostring(love.timer.getFPS()), 5, 5)
+end
