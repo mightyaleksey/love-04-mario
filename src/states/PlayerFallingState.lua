@@ -14,10 +14,10 @@ end
 function PlayerFallingState:update(dt)
   -- handle input
   if
-    Keys.wasPressed('left') or
-    Keys.wasPressed('right')
+    Keys.wasHolding('left') or
+    Keys.wasHolding('right')
   then
-    self.entity.direction = Keys.wasPressed('left')
+    self.entity.direction = Keys.wasHolding('left')
       and DIRECTION_LEFT or DIRECTION_RIGHT
     self.entity.dx = PLAYER_WALK_SPEED * (1 - 2 * self.entity.direction)
     self.entity.x = math.max(self.entity.x + self.entity.dx * dt, 0)

@@ -12,8 +12,8 @@ end
 
 function PlayerIdleState:update(dt)
   if
-    Keys.wasPressed('left') or
-    Keys.wasPressed('right')
+    Keys.wasHolding('left') or
+    Keys.wasHolding('right')
   then
     self.entity:changeState('walking')
   end

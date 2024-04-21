@@ -13,14 +13,14 @@ end
 function PlayerWalkingState:update(dt)
   -- handle input
   if
-    Keys.wasPressed('left') or
-    Keys.wasPressed('right')
+    Keys.wasHolding('left') or
+    Keys.wasHolding('right')
   then
-    self.entity.direction = Keys.wasPressed('left')
+    self.entity.direction = Keys.wasHolding('left')
       and DIRECTION_LEFT or DIRECTION_RIGHT
   elseif
-    not Keys.wasPressed('left') and
-    not Keys.wasPressed('right')
+    not Keys.wasHolding('left') and
+    not Keys.wasHolding('right')
   then
     self.entity:changeState('idle')
   end
