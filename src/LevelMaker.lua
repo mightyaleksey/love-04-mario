@@ -87,15 +87,8 @@ function LevelMaker.generate(width, height)
     end
   end
 
-  local map = TileMap(width, height)
-  map.tiles = tileMap
+  local map = TileMap(width, height, tileMap)
+  local entities = { Snail { x = 0, y = 0, tileMap = map } }
 
-  -- set topology
-  for column = 1, width do
-    for row = 1, #tileMap[column] do
-      tileMap[column][row].topologyID = map:toTopology(column, row)
-    end
-  end
-
-  return map
+  return GameLevel(map, entities)
 end

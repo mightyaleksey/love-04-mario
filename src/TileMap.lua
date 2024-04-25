@@ -1,12 +1,19 @@
 TileMap = Class{}
 
 -- 32 x 18: viewport size
-function TileMap:init(width, height)
+function TileMap:init(width, height, tileMap)
   -- map size
   self.width = width
   self.height = height
   -- tiles[columns][rows]
-  self.tiles = {}
+  self.tiles = tileMap or {}
+
+  -- set topology
+  for column = 1, width do
+    for row = 1, #self.tiles[column] do
+      self.tiles[column][row].topologyID = self:toTopology(column, row)
+    end
+  end
 end
 
 function TileMap:render(scrollX)

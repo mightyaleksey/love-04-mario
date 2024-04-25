@@ -20,6 +20,7 @@ function love.load()
   gFrames = {
     bg = genQuads(gTextures['main'], 256, 128, 464, 16, 720, 400),
     player = genQuads(gTextures['main'], 16, 20, nil, 348, 176, 368),
+    snail = genQuads(gTextures['main'], 16, 12, 0, 532, 126, 544),
 
     ladder = genQuads(gTextures['main'], 16, 16, nil, 256, 16, 288),
     tiles = genTiles(gTextures['main']),

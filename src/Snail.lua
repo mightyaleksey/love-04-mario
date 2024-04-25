@@ -10,16 +10,27 @@ function Snail:init(opt)
 
     -- dimentions
     width = 16,
-    height = 20,
+    height = 12,
     frames = gFrames['snail'],
     texture = gTextures['main'],
 
     -- available states
-    stateMachine = StateMachine {},
+    stateMachine = StateMachine {
+      idle = function () return SnailIdleState(self) end,
+      walking = function () return SnailWalkingState(self) end
+    },
 
     -- environment
     tileMap = opt.tileMap
   })
 
-  -- self.stateMachine:change('idle')
+  self.stateMachine:change('walking')
+end
+
+function Snail:render()
+  Entity.render(self)
+end
+
+function Snail:update(dt)
+  Entity.update(self, dt)
 end
