@@ -21,25 +21,18 @@ function PlayerFallingState:update(dt)
       and DIRECTION_LEFT or DIRECTION_RIGHT
     self.entity.dx = PLAYER_WALK_SPEED * (1 - 2 * self.entity.direction)
     self.entity.x = math.max(self.entity.x + self.entity.dx * dt, 0)
-    self.entity:checkHorizontalCollisions()
+    if self.entity:hasWalkCollision() then
+      self.entity:fixWalkPosition()
+    end
   else
     self.entity.dx = 0
   end
 
-  -- check landing
-  local tileBottomLeft = self.entity:getBottomLeftTile()
-  local tileBottomRight = self.entity:getBottomRightTile()
-
-  if
-    (tileBottomLeft and tileBottomLeft:collidable()) or
-    (tileBottomRight and tileBottomRight:collidable())
-  then
-    self.entity.y = (tileBottomLeft or tileBottomRight).y - self.entity.height
+  self.entity.dy = self.entity.dy + self.gravity
+  self.entity.y = self.entity.y + self.entity.dy * dt
+  if self.entity:hasFallCollision() then
+    self.entity:fixFallCollision()
     self.entity:changeState('idle')
-  else
-    -- update state
-    self.entity.dy = self.entity.dy + self.gravity
-    self.entity.y = self.entity.y + self.entity.dy * dt
   end
 
   self.animation:update(dt)

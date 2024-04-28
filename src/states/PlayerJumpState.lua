@@ -25,7 +25,9 @@ function PlayerJumpState:update(dt)
       and DIRECTION_LEFT or DIRECTION_RIGHT
     self.entity.dx = PLAYER_WALK_SPEED * (1 - 2 * self.entity.direction)
     self.entity.x = math.max(self.entity.x + self.entity.dx * dt, 0)
-    self.entity:checkHorizontalCollisions()
+    if self.entity:hasWalkCollision() then
+      self.entity:fixWalkPosition()
+    end
   else
     self.entity.dx = 0
   end

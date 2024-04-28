@@ -25,8 +25,8 @@ function TileMap:render(scrollX)
     for y = 1, #self.tiles[x] do
       assert(self.tiles[x], 'TileMap: x = '..tostring(x)..' is nil')
       assert(self.tiles[x][y], 'TileMap: x, y = '..tostring(x)..', '..tostring(y)..' is nil')
-
       local tile = self.tiles[x][y]
+
       tile:render()
 
       if DEBUG == 1 then

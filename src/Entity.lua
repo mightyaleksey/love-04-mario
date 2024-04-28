@@ -41,34 +41,74 @@ function Entity:changeState(name, opt)
   self.stateMachine:change(name, opt)
 end
 
-function Entity:getBottomLeftTile()
+function Entity:getTile(offsetX, offsetY)
+  -- point position: [   ]
+  --  bottom-middle: [ x ]
   return self.tileMap:pointToTile(
-    self.x + 1,
-    self.y + self.height + 1
+    self.x + 0.5 * self.width + (offsetX or 0),
+    self.y + self.height + (offsetY or 0)
   )
 end
 
-function Entity:getBottomRightTile()
-  return self.tileMap:pointToTile(
-    self.x + self.width - 1,
-    self.y + self.height + 1
+function Entity:hasFallCollision()
+  local bottomLeftTile = self:getTile(2 - 0.5 * self.width, 1)
+
+  if
+    bottomLeftTile and
+    bottomLeftTile:collidable()
+  then
+    return true
+  end
+
+  local bottomRightTile = self:getTile(0.5 * self.width - 2, 1)
+
+  if
+    bottomRightTile and
+    bottomRightTile:collidable()
+  then
+    return true
+  end
+
+  return false
+end
+
+function Entity:fixFallCollision()
+  local bottomLeftTile = self:getTile(1 - 0.5 * self.width, 1)
+  local bottomRightTile = self:getTile(0.5 * self.width - 1, 1)
+  local groundY = math.min(
+    bottomLeftTile and bottomLeftTile.y or VIRTUAL_HEIGHT,
+    bottomRightTile and bottomRightTile.y or VIRTUAL_HEIGHT
+  )
+
+  self.dy = 0
+  self.y = groundY - self.height
+end
+
+function Entity:hasWalkCollision()
+  local horizontalTile = self:getTile(
+    self.direction == DIRECTION_LEFT
+      and -(1 + 0.5 * self.width)
+      or 0.5 * self.width,
+    -2
+  )
+
+  return (
+    horizontalTile and
+    horizontalTile:collidable() and
+    collides(self, horizontalTile)
   )
 end
 
-function Entity:getLeftTile()
-  -- technically Y should be reduced by tile size as well,
-  -- however, in this particular setup jumps work better
-  return self.tileMap:pointToTile(
-    self.x - 2,
-    self.y + self.height - 2
+function Entity:fixWalkPosition()
+  local horizontalTile = self:getTile(
+    self.direction == DIRECTION_LEFT
+      and -(1 + 0.5 * self.width)
+      or 0.5 * self.width,
+    -2
   )
-end
 
-function Entity:getRightTile()
-  -- technically Y should be reduced by tile size as well,
-  -- however, in this particular setup jumps work better
-  return self.tileMap:pointToTile(
-    self.x + self.width + 2,
-    self.y + self.height - 2
-  )
+  self.dx = 0
+  self.x = self.direction == DIRECTION_LEFT
+    and math.max(horizontalTile.x + horizontalTile.width, self.x)
+    or math.min(horizontalTile.x - self.width, self.x)
 end
