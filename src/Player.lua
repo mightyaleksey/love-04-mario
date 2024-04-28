@@ -16,6 +16,8 @@ function Player:init(opt)
 
     -- available states
     stateMachine = StateMachine {
+      bounce = function () return PlayerBounceState(self) end,
+      escaping = function () return PlayerEscapingState(self) end,
       falling = function () return PlayerFallingState(self) end,
       idle = function () return PlayerIdleState(self) end,
       jump = function () return PlayerJumpState(self) end,
@@ -23,11 +25,11 @@ function Player:init(opt)
     },
 
     -- environment
+    level = opt.level,
     tileMap = opt.tileMap
   })
 
-  -- self.stateMachine:change('falling')
-  self.stateMachine:change('idle')
+  self:changeState('idle')
 end
 
 function Player:render()
@@ -36,4 +38,21 @@ end
 
 function Player:update(dt)
   Entity.update(self, dt)
+  self:checkEntityCollisions()
+end
+
+--[[ helpers ]]
+
+function Player:checkEntityCollisions()
+  for k, target in ipairs(self.level.entities) do
+    if collides(self, target) then
+      target:onCollide(self)
+
+      if target.consumable then
+        -- consume
+      else
+
+      end
+    end
+  end
 end

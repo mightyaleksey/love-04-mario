@@ -27,6 +27,7 @@ function StateMachine:init(states)
 
   self.states = states or {}
   self.current = self.empty
+  self.currentName = nil
 end
 
 function StateMachine:change(stateName, values)
@@ -35,6 +36,7 @@ function StateMachine:change(stateName, values)
   self.current:exit()
   -- get new state with its methods through the function call
   self.current = self.states[stateName]()
+  self.currentName = stateName
   -- call enter for the new state
   self.current:enter(values)
 end

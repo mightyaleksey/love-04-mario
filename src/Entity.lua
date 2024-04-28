@@ -6,9 +6,11 @@ function Entity:init(opt)
   -- dimensions
   defineProperties(self, opt, { 'width', 'height', 'frames', 'texture', 'stateMachine' })
   -- environment
-  defineProperties(self, opt, { 'tileMap' })
+  defineProperties(self, opt, { 'level', 'tileMap' })
 
+  self.consumable = false
   self.currentAnimation = nil
+  self.inverseAnimation = 0 -- 0 no inverse, 1 inverse
   self.direction = DIRECTION_LEFT
 
   -- velocity
@@ -23,10 +25,10 @@ function Entity:render()
   love.graphics.draw(
     self.texture,
     self.frames[self.currentAnimation:getCurrentFrame()],
-    self.x + self.direction * self.width,
+    self.x + inverse(self.direction, self.inverseAnimation) * self.width,
     self.y,
     0, -- rotate
-    1 - 2 * self.direction, -- scaleX
+    1 - 2 * inverse(self.direction, self.inverseAnimation), -- scaleX
     1 -- scaleY
   )
 end
@@ -111,4 +113,17 @@ function Entity:fixWalkPosition()
   self.x = self.direction == DIRECTION_LEFT
     and math.max(horizontalTile.x + horizontalTile.width, self.x)
     or math.min(horizontalTile.x - self.width, self.x)
+end
+
+--[[ utils ]]
+
+function inverse(a, b)
+  -- updates direction modifier
+  -- uses exclusive or
+
+  if b == 1 then
+    return 1 - a
+  end
+
+  return a
 end

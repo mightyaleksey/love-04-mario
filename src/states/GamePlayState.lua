@@ -21,6 +21,8 @@ function GamePlayState:enter()
     x = (startX - 1) * TILE_SIZE,
     y = VIRTUAL_HEIGHT - 7 * TILE_SIZE,
 
+    -- environment
+    level = self.level,
     tileMap = self.tileMap
   }
 end

@@ -88,7 +88,17 @@ function LevelMaker.generate(width, height)
   end
 
   local map = TileMap(width, height, tileMap)
-  local entities = { Snail { x = 0, y = 0, tileMap = map } }
+  local level = GameLevel(map)
 
-  return GameLevel(map, entities)
+  table.insert(
+    level.entities,
+    Snail {
+      x = 10 * TILE_SIZE,
+      y = VIRTUAL_HEIGHT - #tileMap[10] * TILE_SIZE - 12,
+      level = level,
+      tileMap = map
+    }
+  )
+
+  return level
 end
