@@ -16,7 +16,7 @@ function Snail:init(opt)
 
     -- available states
     stateMachine = StateMachine {
-      escaping = function () return SnailEscapingState(self) end,
+      falling = function () return SnailFallingState(self) end,
       hidden = function () return SnailHiddenState(self) end,
       idle = function () return SnailIdleState(self) end,
       sliding = function () return SnailSlidingState(self) end,

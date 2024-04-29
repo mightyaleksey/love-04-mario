@@ -19,7 +19,7 @@ function SnailSlidingState:update(dt)
   end
 
   if not self.entity:hasFallCollision() then
-    self.entity:changeState('escaping')
+    self.entity:changeState('falling')
   end
 
   self.animation:update(dt)
