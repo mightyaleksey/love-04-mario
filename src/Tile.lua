@@ -61,12 +61,30 @@ end
 
 --[[ utils ]]
 
+local bottomMask = 383
+local isBottomEdge = { 16 }
+local isBottomLeft = { 24 }
+local isBottomRight = { 48 }
 local topMask = 504
 local isTop = { 16, 56, 120, 312, 376 }
 local isTopLeft = { 24, 88 }
 local isTopRight = { 48, 304 }
 
 function getTileID(topologyID)
+  local patternBottom = bit.band(topologyID, bottomMask)
+
+  if includes(isBottomLeft, patternBottom) then
+    return 280
+  end
+
+  if includes(isBottomRight, patternBottom) then
+    return 281
+  end
+
+  if includes(isBottomEdge, patternBottom) then
+    return 282
+  end
+
   return 277
 end
 
