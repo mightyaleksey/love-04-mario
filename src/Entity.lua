@@ -52,6 +52,11 @@ function Entity:getTile(offsetX, offsetY)
   )
 end
 
+function Entity:inverseDirection()
+  self.direction = self.direction == DIRECTION_LEFT
+    and DIRECTION_RIGHT or DIRECTION_LEFT
+end
+
 function Entity:hasFallCollision()
   local bottomLeftTile = self:getTile(2 - 0.5 * self.width, 1)
 

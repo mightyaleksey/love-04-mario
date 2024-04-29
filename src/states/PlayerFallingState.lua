@@ -36,8 +36,4 @@ function PlayerFallingState:update(dt)
   end
 
   self.animation:update(dt)
-
-  if self.entity.y > VIRTUAL_HEIGHT then
-    gStateMachine:change('play')
-  end
 end

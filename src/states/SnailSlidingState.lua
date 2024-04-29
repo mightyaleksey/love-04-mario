@@ -10,17 +10,15 @@ function SnailSlidingState:init(entity)
   self.entity.currentAnimation = self.animation
 end
 
-function SnailSlidingState:enter()
-  self.entity.dx = SNAIL_SLIDE_SPEED * (1 - 2 * self.entity.direction)
-end
-
 function SnailSlidingState:update(dt)
+  self.entity.dx = SNAIL_SLIDE_SPEED * (1 - 2 * self.entity.direction)
   self.entity.x = self.entity.x + self.entity.dx * dt
 
-  if
-    self.entity:hasWalkCollision() or
-    not self.entity:hasFallCollision()
-  then
+  if self.entity:hasWalkCollision() then
+    self.entity:inverseDirection()
+  end
+
+  if not self.entity:hasFallCollision() then
     self.entity:changeState('escaping')
   end
 

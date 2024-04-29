@@ -16,8 +16,7 @@ function SnailWalkingState:update(dt)
 
   if self.entity:hasWalkCollision() then
     self.entity:fixWalkPosition()
-    self.entity.direction = self.entity.direction == DIRECTION_LEFT
-      and DIRECTION_RIGHT or DIRECTION_LEFT
+    self.entity:inverseDirection()
   end
 
   -- check edges

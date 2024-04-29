@@ -52,16 +52,19 @@ function Snail:onCollide(player)
     else
       player:changeState('escaping')
     end
-  end
-
-  if self.stateMachine.currentName == 'hidden' then
+  elseif self.stateMachine.currentName == 'hidden' then
     if
       player.stateMachine.currentName == 'falling' or
       player.stateMachine.currentName == 'walking'
     then
       local deltaX = self.x - player.x + 0.5 * (self.width - player.width)
       self.direction = deltaX > 0 and DIRECTION_RIGHT or DIRECTION_LEFT
+      self.x = self.direction == DIRECTION_LEFT
+        and player.x - self.width
+        or player.x + player.width
       self:changeState('sliding')
     end
+  elseif self.stateMachine.currentName == 'sliding' then
+    player:changeState('escaping')
   end
 end

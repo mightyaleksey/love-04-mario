@@ -39,6 +39,10 @@ end
 function Player:update(dt)
   Entity.update(self, dt)
   self:checkEntityCollisions()
+
+  if self.y > VIRTUAL_HEIGHT then
+    gStateMachine:change('play')
+  end
 end
 
 --[[ helpers ]]
@@ -53,6 +57,11 @@ function Player:checkEntityCollisions()
       else
 
       end
+    end
+
+    if target.y > VIRTUAL_HEIGHT then
+      -- remove entities out of viewport
+      table.remove(self.level.entities, k)
     end
   end
 end
