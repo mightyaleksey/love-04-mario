@@ -89,17 +89,8 @@ function LevelMaker.generate(width, height)
 
   local map = TileMap(width, height, tileMap)
   local level = GameLevel(map)
-  level.objects = populateEnvironment(tileMap)
-
-  table.insert(
-    level.entities,
-    Snail {
-      x = 10 * TILE_SIZE,
-      y = VIRTUAL_HEIGHT - #tileMap[10] * TILE_SIZE - 12,
-      level = level,
-      tileMap = map
-    }
-  )
+  level.objects = populateEnvironment(tileMap, level)
+  level.entities = populateEnemies(tileMap, level)
 
   return level
 end
@@ -149,4 +140,35 @@ function populateEnvironment(tileMap)
   end
 
   return objects
+end
+
+function populateEnemies(tileMap, level)
+  local enemies = {}
+  local point = math.random(5, 9)
+
+  for column = 1, #tileMap do
+    local surfaceHeight = #tileMap[column]
+
+    -- skip water
+    if surfaceHeight < 2 then
+      goto continue
+    end
+
+    if point == 0 then
+      table.insert(enemies, Snail {
+        x = TILE_SIZE * (column - 1),
+        y = VIRTUAL_HEIGHT - TILE_SIZE * surfaceHeight - 12,
+        level = level,
+        tileMap = level.tileMap
+      })
+
+      point = math.random(5, 9)
+    end
+
+    point = point - 1
+
+    ::continue::
+  end
+
+  return enemies
 end
