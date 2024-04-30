@@ -14,6 +14,7 @@ require 'src/utilMario'
 -- entities
 require 'src/Animation'
 require 'src/Entity'
+require 'src/GameObject'
 require 'src/GameLevel'
 require 'src/LevelMaker'
 require 'src/Player'

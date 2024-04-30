@@ -89,6 +89,7 @@ function LevelMaker.generate(width, height)
 
   local map = TileMap(width, height, tileMap)
   local level = GameLevel(map)
+  level.objects = populateEnvironment(tileMap)
 
   table.insert(
     level.entities,
@@ -101,4 +102,51 @@ function LevelMaker.generate(width, height)
   )
 
   return level
+end
+
+function populateEnvironment(tileMap)
+  local objects = {}
+
+  for column = 1, #tileMap do
+    local surfaceHeight = #tileMap[column]
+
+    -- skip water
+    if surfaceHeight < 2 then
+      goto continue
+    end
+
+    local bushHeight = math.random(8) % 3
+    if math.random(5) > 3 then
+      for y = 1, bushHeight do
+        local frame = bushHeight == 2
+          and (y == 1 and 1 or (math.random(3) == 1 and 4 or 2))
+          or 2
+
+        table.insert(objects, GameObject {
+          x = column,
+          y = surfaceHeight + y,
+          texture = 'main',
+          frames = 'bushes',
+          frame = frame
+        })
+      end
+    end
+
+    if
+      bushHeight ~= 1 and
+      math.random(5) ~= 1
+    then
+      table.insert(objects, GameObject {
+        x = column,
+        y = surfaceHeight + 1,
+        texture = 'main',
+        frames = 'plants',
+        frame = math.random(6)
+      })
+    end
+
+    ::continue::
+  end
+
+  return objects
 end

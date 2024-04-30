@@ -25,7 +25,9 @@ function love.load()
     player = genQuads(gTextures['main'], 16, 20, nil, 348, 176, 368),
     snail = genQuads(gTextures['main'], 16, 12, 0, 532, 126, 544),
 
+    bushes = genQuads(gTextures['main'], 16, 16, 208, 112, 352, 160),
     ladder = genQuads(gTextures['main'], 16, 16, nil, 256, 16, 288),
+    plants = genQuads(gTextures['main'], 16, 16, 320, 160, 432, 240),
     tiles = genTiles(gTextures['main']),
     tileTops = genTileTops(gTextures['main']),
     water = genWater(gTextures['main'])

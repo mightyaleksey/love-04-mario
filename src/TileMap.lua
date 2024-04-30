@@ -16,10 +16,9 @@ function TileMap:init(width, height, tileMap)
   end
 end
 
-function TileMap:render(scrollX)
-  -- render only visible map
-  local leftX = math.max(math.floor(scrollX / TILE_SIZE), 1)
-  local rightX = math.min(math.floor((scrollX + VIRTUAL_WIDTH) / TILE_SIZE) + 1, self.width)
+function TileMap:render(leftX, rightX)
+  leftX = math.max(leftX or 1, 1)
+  rightX = math.min(rightX or self.width, self.width)
 
   for x = leftX, rightX do
     for y = 1, #self.tiles[x] do

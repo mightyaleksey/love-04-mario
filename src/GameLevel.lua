@@ -1,19 +1,25 @@
 -- generic container for the level
 GameLevel = Class{}
 
-function GameLevel:init(tileMap, entities)
+function GameLevel:init(tileMap, entities, objects)
   self.entities = entities or {}
-  self.objects = {}
+  self.objects = objects or {}
   self.tileMap = tileMap
 end
 
 function GameLevel:render(scrollX)
+  -- render only visible map
+  local leftX = math.floor(scrollX / TILE_SIZE)
+  local rightX = math.floor((scrollX + VIRTUAL_WIDTH) / TILE_SIZE) + 1
+
   -- render map
-  self.tileMap:render(scrollX)
+  self.tileMap:render(leftX, rightX)
 
   -- render static objects
   for _, object in ipairs(self.objects) do
-    object:render()
+    if object.mapX >= leftX and object.mapX <= rightX then
+      object:render()
+    end
   end
 
   -- render entities
