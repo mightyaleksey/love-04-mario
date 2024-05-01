@@ -31,7 +31,10 @@ function PlayerWalkingState:update(dt)
 
   -- update state
   self.entity.dx = PLAYER_WALK_SPEED * (1 - 2 * self.entity.direction)
-  self.entity.x = math.max(self.entity.x + self.entity.dx * dt, 0)
+  self.entity.x = math.min(
+    math.max(self.entity.x + self.entity.dx * dt, 0),
+    TILE_SIZE * self.entity.tileMap.width - self.entity.width
+  )
   if self.entity:hasWalkCollision() then
     self.entity:fixWalkPosition()
   end

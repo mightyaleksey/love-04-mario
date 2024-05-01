@@ -10,8 +10,8 @@ function LevelMaker.generate(width, height)
   -- sets seed, so the level generation will reproducable
   -- math.randomseed(width, height)
 
-  -- tileMap[columns][rows]
-  local tileMap = {}
+  -- tiles[columns][rows]
+  local tiles = {}
 
   local surface = {}
   local surfaceType = round(math.random(0, 1))
@@ -54,11 +54,11 @@ function LevelMaker.generate(width, height)
 
   -- generate matrix
   for column = 1, width do
-    table.insert(tileMap, {})
+    table.insert(tiles, {})
 
     if surface[column] > 0 then
       for row = 1, surface[column] do
-        tileMap[column][row] = Tile(TILE_ID_GROUND, column, row)
+        tiles[column][row] = Tile(TILE_ID_GROUND, column, row)
       end
 
       if waterIndex == 1 then
@@ -66,20 +66,20 @@ function LevelMaker.generate(width, height)
       end
 
       if waterIndex ~= nil then
-        local height = waterIndex > 1 and 6 - #tileMap[waterIndex - 1] or 3
+        local height = waterIndex > 1 and 6 - #tiles[waterIndex - 1] or 3
 
         for t = waterIndex + 2, column - 3 do
           for u = 2, height - 1 do
-            tileMap[t][u] = Tile(TILE_ID_EMPTY, t, u)
+            tiles[t][u] = Tile(TILE_ID_EMPTY, t, u)
           end
 
-          tileMap[t][height] = Tile(TILE_ID_GROUND, t, height)
+          tiles[t][height] = Tile(TILE_ID_GROUND, t, height)
         end
 
         waterIndex = nil
       end
     else
-      tileMap[column][1] = Tile(TILE_ID_WATER, column, 1)
+      tiles[column][1] = Tile(TILE_ID_WATER, column, 1)
 
       if waterIndex == nil then
         waterIndex = column
@@ -87,10 +87,10 @@ function LevelMaker.generate(width, height)
     end
   end
 
-  local map = TileMap(width, height, tileMap)
-  local level = GameLevel(map)
-  level.objects = populateEnvironment(tileMap, level)
-  level.entities = populateEnemies(tileMap, level)
+  local tileMap = TileMap(width, height, tiles)
+  local level = GameLevel(tileMap)
+  level.objects = populateEnvironment(tiles, level)
+  level.entities = populateEnemies(tiles, level)
 
   return level
 end

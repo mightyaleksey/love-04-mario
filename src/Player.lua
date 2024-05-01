@@ -39,10 +39,6 @@ end
 function Player:update(dt)
   Entity.update(self, dt)
   self:checkEntityCollisions()
-
-  if self.y > VIRTUAL_HEIGHT then
-    gStateMachine:change('play')
-  end
 end
 
 --[[ helpers ]]

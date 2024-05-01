@@ -70,6 +70,11 @@ function GamePlayState:update(dt)
   self.level:update(dt)
   self.player:update(dt)
 
+  -- game over
+  if self.player.y > VIRTUAL_HEIGHT then
+    gStateMachine:change('play')
+  end
+
   -- move camera left
   if self.player.x < self.camX + LEFT_CAMERA_EDGE then
     self.camX = math.max(self.player.x - LEFT_CAMERA_EDGE, 0)
