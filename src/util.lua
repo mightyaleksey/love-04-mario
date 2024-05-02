@@ -25,6 +25,18 @@ function findIndex(collection, predicate)
   return -1
 end
 
+function findLastIndex(collection, predicate)
+  assert(type(predicate) == 'function')
+
+  for index = #collection, 1, -1 do
+    if predicate(collection[index]) then
+      return index
+    end
+  end
+
+  return -1
+end
+
 function findKey(collection, predicate)
   assert(type(predicate) == 'function')
 

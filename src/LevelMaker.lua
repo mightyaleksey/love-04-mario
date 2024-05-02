@@ -89,13 +89,29 @@ function LevelMaker.generate(width, height)
 
   local tileMap = TileMap(width, height, tiles)
   local level = GameLevel(tileMap)
+  -- generate world
   level.objects = populateEnvironment(tiles, level)
   level.entities = populateEnemies(tiles, level)
+
+  -- find flag pole position
+  local polePosition = findLastIndex(tiles, function (column)
+    return not column[1]:isWater()
+  end)
+
+  -- add pole
+  local surfaceHeight = #tiles[polePosition - 2]
+  for f = 1, 3 do
+    table.insert(level.objects, PoleGameObject {
+      mapX = polePosition - 2,
+      mapY = surfaceHeight + f,
+      frame = 4 - f
+    })
+  end
 
   return level
 end
 
-function populateEnvironment(tileMap)
+function populateEnvironment(tileMap, level)
   local objects = {}
 
   for column = 1, #tileMap do

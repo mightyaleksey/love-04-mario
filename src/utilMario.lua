@@ -2,8 +2,8 @@ function genPoles(atlas)
   local spritesheet = {}
   local sheetCounter = 0
 
-  for y = 1, 3 do
-    for x = 1, 6 do
+  for x = 1, 6 do
+    for y = 1, 3 do
       sheetCounter = sheetCounter + 1
       spritesheet[sheetCounter] =
         love.graphics.newQuad(
