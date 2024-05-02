@@ -18,8 +18,8 @@ function GamePlayState:enter()
   end)
 
   self.player = Player {
-    x = (startX - 1) * TILE_SIZE,
-    y = VIRTUAL_HEIGHT - 7 * TILE_SIZE,
+    mapX = startX,
+    mapY = 7,
 
     -- environment
     level = self.level,

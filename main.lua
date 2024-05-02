@@ -20,13 +20,15 @@ function love.load()
   gFrames = {
     bg = genQuads(gTextures['main'], 256, 128, 464, 16, 720, 400),
     coins = genQuads(gTextures['main'], 16, 16, 64, 160, 112, 176),
+    flags = genQuads(gTextures['main'], 16, 16, 96, 192, 144, 256),
     keys = genQuads(gTextures['main'], 16, 16, 0, 64, 64, 80),
+    ladder = genQuads(gTextures['main'], 16, 16, nil, 256, 16, 288),
     locks = genQuads(gTextures['main'], 16, 16, 0, 80, 64, 96),
     player = genQuads(gTextures['main'], 16, 20, nil, 348, 176, 368),
+    poles = genPoles(gTextures['main']),
     snail = genQuads(gTextures['main'], 16, 12, 0, 532, 126, 544),
 
     bushes = genQuads(gTextures['main'], 16, 16, 208, 112, 352, 160),
-    ladder = genQuads(gTextures['main'], 16, 16, nil, 256, 16, 288),
     plants = genQuads(gTextures['main'], 16, 16, 320, 160, 432, 240),
     tiles = genTiles(gTextures['main']),
     tileTops = genTileTops(gTextures['main']),

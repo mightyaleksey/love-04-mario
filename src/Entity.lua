@@ -11,7 +11,7 @@ function Entity:init(opt)
   self.consumable = false
   self.currentAnimation = nil
   self.inverseAnimation = 0 -- 0 no inverse, 1 inverse
-  self.direction = DIRECTION_LEFT
+  self.direction = DIRECTION_RIGHT
 
   -- velocity
   self.dx = 0

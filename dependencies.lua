@@ -14,13 +14,19 @@ require 'src/utilMario'
 -- entities
 require 'src/Animation'
 require 'src/Entity'
-require 'src/GameObject'
 require 'src/GameLevel'
 require 'src/LevelMaker'
 require 'src/Player'
 require 'src/Snail'
 require 'src/Tile'
 require 'src/TileMap'
+
+-- game objects
+require 'src/GameObject'
+require 'src/BushGameObject'
+require 'src/FlagGameObject'
+require 'src/PlantGameObject'
+require 'src/PoleGameObject'
 
 -- states
 require 'src/StateMachine'

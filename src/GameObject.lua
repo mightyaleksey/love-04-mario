@@ -1,20 +1,17 @@
 GameObject = Class{}
 
 function GameObject:init(opt)
-  local x = opt.x or 0
-  local y = opt.y or 0
   -- position
-  self.x = TILE_SIZE * (x - 1)
-  self.y = VIRTUAL_HEIGHT - TILE_SIZE * y
-  -- dimentions
-  self.width = TILE_SIZE
-  self.height = TILE_SIZE
-  self.frame = opt.frame
+  self.x = TILE_SIZE * (opt.mapX - 1)
+  self.y = VIRTUAL_HEIGHT - TILE_SIZE * opt.mapY
+  -- dimensions
+  self.width = opt.width or TILE_SIZE
+  self.height = opt.height or TILE_SIZE
+  self.frame = opt.frame or 1
   self.frames = opt.frames
-  self.texture = opt.texture
+  self.texture = 'main'
   -- map coordinates
-  self.mapX = x
-  self.mapY = y
+  defineProperties(self, opt, { 'mapX', 'mapY' })
 end
 
 function GameObject:render()

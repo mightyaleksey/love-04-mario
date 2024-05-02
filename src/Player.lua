@@ -5,8 +5,8 @@ function Player:init(opt)
 
   Entity.init(self, {
     -- position
-    x = opt.x or 0,
-    y = opt.y or 0,
+    x = TILE_SIZE * ((opt.mapX or 1) - 1),
+    y = VIRTUAL_HEIGHT - TILE_SIZE * (opt.mapY or 1),
 
     -- dimentions
     width = 16,
@@ -29,7 +29,7 @@ function Player:init(opt)
     tileMap = opt.tileMap
   })
 
-  self:changeState('idle')
+  self:changeState('falling')
 end
 
 function Player:render()

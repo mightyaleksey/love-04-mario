@@ -113,11 +113,9 @@ function populateEnvironment(tileMap)
           and (y == 1 and 1 or (math.random(3) == 1 and 4 or 2))
           or 2
 
-        table.insert(objects, GameObject {
-          x = column,
-          y = surfaceHeight + y,
-          texture = 'main',
-          frames = 'bushes',
+        table.insert(objects, BushGameObject {
+          mapX = column,
+          mapY = surfaceHeight + y,
           frame = frame
         })
       end
@@ -127,11 +125,9 @@ function populateEnvironment(tileMap)
       bushHeight ~= 1 and
       math.random(5) ~= 1
     then
-      table.insert(objects, GameObject {
-        x = column,
-        y = surfaceHeight + 1,
-        texture = 'main',
-        frames = 'plants',
+      table.insert(objects, PlantGameObject {
+        mapX = column,
+        mapY = surfaceHeight + 1,
         frame = math.random(6)
       })
     end
@@ -156,8 +152,10 @@ function populateEnemies(tileMap, level)
 
     if point == 0 then
       table.insert(enemies, Snail {
-        x = TILE_SIZE * (column - 1),
-        y = VIRTUAL_HEIGHT - TILE_SIZE * surfaceHeight - 12,
+        mapX = column,
+        mapY = surfaceHeight,
+
+        -- environment
         level = level,
         tileMap = level.tileMap
       })

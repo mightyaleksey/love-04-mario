@@ -5,8 +5,8 @@ function Snail:init(opt)
 
   Entity.init(self, {
     -- position
-    x = opt.x or 0,
-    y = opt.y or 0,
+    x = TILE_SIZE * ((opt.mapX or 1) - 1),
+    y = VIRTUAL_HEIGHT - TILE_SIZE * (opt.mapY or 1) - 12,
 
     -- dimentions
     width = 16,
