@@ -11,7 +11,7 @@ function TileMap:init(width, height, tileMap)
   -- set topology
   for column = 1, width do
     for row = 1, #self.tiles[column] do
-      self.tiles[column][row].topologyID = self:toTopology(column, row)
+      self:updateTopology(column, row)
     end
   end
 end
@@ -22,9 +22,11 @@ function TileMap:render(leftX, rightX)
 
   for x = leftX, rightX do
     for y = 1, #self.tiles[x] do
-      assert(self.tiles[x], 'TileMap: x = '..tostring(x)..' is nil')
-      assert(self.tiles[x][y], 'TileMap: x, y = '..tostring(x)..', '..tostring(y)..' is nil')
       local tile = self.tiles[x][y]
+
+      if tile == nil then
+        goto continue
+      end
 
       tile:render()
 
@@ -36,6 +38,8 @@ function TileMap:render(leftX, rightX)
         love.graphics.print(tostring(x), tile.x, tile.y)
         love.graphics.print(tostring(tile.topologyID), tile.x, tile.y + 6)
       end
+
+      ::continue::
     end
   end
 end
@@ -77,6 +81,14 @@ function TileMap:toTopology(mapX, mapY)
     getTopologyID(self.tiles, mapX + 1, mapY - 1)
   }
   return tonumber(table.concat(localTopology), 2)
+end
+
+function TileMap:updateTopology(mapX, mapY)
+  local tile = self.tiles[mapX][mapY]
+
+  if tile and not tile:isEmpty() then
+    self.tiles[mapX][mapY].topologyID = self:toTopology(mapX, mapY)
+  end
 end
 
 --[[ utils ]]

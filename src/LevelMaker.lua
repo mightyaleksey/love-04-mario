@@ -1,9 +1,75 @@
-LevelMaker = Class{}
+function isGroundPredicate(tile)
+  return tile and tile:isGround()
+end
 
---[[
-  Tile IDs:
-  - 00: empty
-]]
+function isIslandPredicate(column)
+  return not column[1]:isWater()
+end
+
+function isSurfacePredicate(column)
+  for index = 2, math.min(4, #column) do
+    if column[index]:isGround() then
+      return true
+    end
+  end
+
+  return false
+end
+
+function generateEnvironment(collection, columnStart, columnEnd, row)
+  for column = columnStart, columnEnd do
+    local bushHeight = math.random(8) % 3
+    if math.random(5) > 3 then
+      for y = 1, bushHeight do
+        local frame = bushHeight == 2
+          and (y == 1 and 1 or (math.random(3) == 1 and 4 or 2))
+          or 2
+
+        table.insert(collection, BushGameObject {
+          mapX = column,
+          mapY = row + y,
+          frame = frame
+        })
+      end
+    end
+
+    if
+      bushHeight ~= 1 and
+      math.random(5) ~= 1
+    then
+      table.insert(collection, PlantGameObject {
+        mapX = column,
+        mapY = row + 1,
+        frame = math.random(6)
+      })
+    end
+  end
+end
+
+local enemyDistance = math.random(5, 9)
+
+function generateEnemies(collection, level, columnStart, columnEnd, row)
+  for column = columnStart, columnEnd do
+    if enemyDistance == 0 then
+      table.insert(collection, Snail {
+        mapX = column,
+        mapY = row,
+
+        -- environment
+        level = level,
+        tileMap = level.tileMap
+      })
+
+      enemyDistance = math.random(5, 9)
+    end
+
+    enemyDistance = enemyDistance - 1
+  end
+end
+
+--[[ implementation ]]
+
+LevelMaker = Class{}
 
 -- 32 x 18: viewport size
 function LevelMaker.generate(width, height)
@@ -87,102 +153,86 @@ function LevelMaker.generate(width, height)
     end
   end
 
-  local tileMap = TileMap(width, height, tiles)
-  local level = GameLevel(tileMap)
-  -- generate world
-  level.objects = populateEnvironment(tiles, level)
-  level.entities = populateEnemies(tiles, level)
+
+  local lastIslandTile = findLastIndex(tiles, isIslandPredicate)
 
   -- find flag pole position
-  local polePosition = findLastIndex(tiles, function (column)
-    return not column[1]:isWater()
-  end)
+  local polePosition = lastIslandTile - 2
 
-  -- add pole
-  local surfaceHeight = #tiles[polePosition - 2]
-  for f = 1, 3 do
-    table.insert(level.objects, PoleGameObject {
-      mapX = polePosition - 2,
-      mapY = surfaceHeight + f,
-      frame = 4 - f
+  if #tiles[polePosition] == 1 then
+    -- in case last island is short and pole ends in water, repeat the step
+    polePosition = findLastIndex(tiles, isIslandPredicate, polePosition) - 2
+  end
+
+  -- add floating island
+  local floatingIslandHeight = 9
+  local ladderPosition = findIndex(tiles, isSurfacePredicate, polePosition - 7)
+  local ladderStart = findLastIndex(tiles[ladderPosition], isGroundPredicate, floatingIslandHeight - 1)
+
+  for column = polePosition - 8, polePosition - 3 do
+    -- fill gaps in array
+    for row = #tiles[column] + 1, floatingIslandHeight - 1 do
+      tiles[column][row] = Tile(TILE_ID_EMPTY, column, row)
+    end
+
+    tiles[column][floatingIslandHeight] = Tile(TILE_ID_GROUND, column, floatingIslandHeight)
+  end
+
+  -- generate level
+  local tileMap = TileMap(width, height, tiles)
+  local level = GameLevel(tileMap)
+
+  -- add ladder
+  for f = ladderStart + 1, floatingIslandHeight do
+    table.insert(level.entities, Ladder {
+      mapX = ladderPosition,
+      mapY = f,
+      frame = f == floatingIslandHeight and 1 or 2,
+
+      -- environment
+      level = level,
+      tileMap = level.tileMap
     })
   end
 
-  return level
-end
+  -- add pole
+  local surfaceHeight = #tiles[polePosition]
+  for f = 1, 3 do
+    table.insert(level.entities, Pole {
+      mapX = polePosition,
+      mapY = surfaceHeight + f,
+      frame = 4 - f,
 
-function populateEnvironment(tileMap, level)
-  local objects = {}
+      -- environment
+      level = level,
+      tileMap = level.tileMap
+    })
+  end
 
-  for column = 1, #tileMap do
-    local surfaceHeight = #tileMap[column]
+  -- generate world
+  local surfaceHeight = nil
+  local columnStart = nil
 
-    -- skip water
-    if surfaceHeight < 2 then
-      goto continue
+  for column = 1, width do
+    local currentHeight = surface[column]
+    -- double check water level
+    if currentHeight == 0 then
+      currentHeight = findLastIndex(tiles[column], isGroundPredicate, floatingIslandHeight - 1)
     end
 
-    local bushHeight = math.random(8) % 3
-    if math.random(5) > 3 then
-      for y = 1, bushHeight do
-        local frame = bushHeight == 2
-          and (y == 1 and 1 or (math.random(3) == 1 and 4 or 2))
-          or 2
-
-        table.insert(objects, BushGameObject {
-          mapX = column,
-          mapY = surfaceHeight + y,
-          frame = frame
-        })
+    if (currentHeight ~= surfaceHeight) then
+      if surfaceHeight and surfaceHeight > 1 then
+        generateEnvironment(level.objects, columnStart, column - 1, surfaceHeight)
+        generateEnemies(level.entities, level, columnStart, column - 1, surfaceHeight)
       end
-    end
 
-    if
-      bushHeight ~= 1 and
-      math.random(5) ~= 1
-    then
-      table.insert(objects, PlantGameObject {
-        mapX = column,
-        mapY = surfaceHeight + 1,
-        frame = math.random(6)
-      })
+      surfaceHeight = currentHeight
+      columnStart = column
     end
-
-    ::continue::
   end
 
-  return objects
-end
+  -- for the floating island
+  generateEnvironment(level.objects, polePosition - 8, polePosition - 3, floatingIslandHeight)
 
-function populateEnemies(tileMap, level)
-  local enemies = {}
-  local point = math.random(5, 9)
-
-  for column = 1, #tileMap do
-    local surfaceHeight = #tileMap[column]
-
-    -- skip water
-    if surfaceHeight < 2 then
-      goto continue
-    end
-
-    if point == 0 then
-      table.insert(enemies, Snail {
-        mapX = column,
-        mapY = surfaceHeight,
-
-        -- environment
-        level = level,
-        tileMap = level.tileMap
-      })
-
-      point = math.random(5, 9)
-    end
-
-    point = point - 1
-
-    ::continue::
-  end
-
-  return enemies
+  return level
 end

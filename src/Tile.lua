@@ -10,9 +10,19 @@ function Tile:init(tileID, mapX, mapY)
 
   self.tileID = tileID
   self.topologyID = nil
+
+  self.mapX = mapX
+  self.mapY = mapY
 end
 
 function Tile:render()
+  if self:isEmpty() then
+    return
+  end
+
+  assert(self.topologyID,
+    'expected topologyID to be set for '..tostring(self.mapX)..', '..tostring(self.mapY))
+
   -- reset color
   love.graphics.setColor(1, 1, 1, 1)
 
@@ -49,6 +59,10 @@ end
 
 function Tile:collidable()
   return self:isGround()
+end
+
+function Tile:isEmpty()
+  return self.tileID == TILE_ID_EMPTY
 end
 
 function Tile:isGround()

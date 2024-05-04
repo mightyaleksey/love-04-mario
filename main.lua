@@ -6,6 +6,8 @@ function love.load()
   love.window.setTitle('Mario')
   love.graphics.setDefaultFilter('nearest', 'nearest')
 
+  math.randomseed(os.time())
+
   -- fonts
   gFonts = {
     small = love.graphics.newFont('fonts/font.ttf', 8),

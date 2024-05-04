@@ -11,15 +11,19 @@ require 'src/util'
 require 'src/utilSprite'
 require 'src/utilMario'
 
--- entities
+-- classes
 require 'src/Animation'
-require 'src/Entity'
 require 'src/GameLevel'
 require 'src/LevelMaker'
-require 'src/Player'
-require 'src/Snail'
 require 'src/Tile'
 require 'src/TileMap'
+
+-- entities
+require 'src/Entity'
+require 'src/Ladder'
+require 'src/Player'
+require 'src/Pole'
+require 'src/Snail'
 
 -- game objects
 require 'src/GameObject'

@@ -13,11 +13,11 @@ end
 
 --[[ table ]]
 
-function findIndex(collection, predicate)
+function findIndex(collection, predicate, startIndex)
   assert(type(predicate) == 'function')
 
-  for index, elem in ipairs(collection) do
-    if predicate(elem) then
+  for index = startIndex or 1, #collection do
+    if predicate(collection[index]) then
       return index
     end
   end
@@ -25,10 +25,10 @@ function findIndex(collection, predicate)
   return -1
 end
 
-function findLastIndex(collection, predicate)
+function findLastIndex(collection, predicate, startIndex)
   assert(type(predicate) == 'function')
 
-  for index = #collection, 1, -1 do
+  for index = startIndex or #collection, 1, -1 do
     if predicate(collection[index]) then
       return index
     end

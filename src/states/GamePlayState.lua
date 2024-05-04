@@ -10,7 +10,8 @@ function GamePlayState:enter()
   self.camX = 0
   self.camY = 0
   -- level specific
-  self.level = LevelMaker.generate(64, 18)
+  self.level = LevelMaker.generate(28, 18)
+  -- self.level = LevelMaker.generate(64, 18)
   self.tileMap = self.level.tileMap
 
   local startX = findIndex(self.tileMap.tiles, function (column)

@@ -11,8 +11,8 @@ function Snail:init(opt)
     -- dimentions
     width = 16,
     height = 12,
-    frames = gFrames['snail'],
-    texture = gTextures['main'],
+    frames = 'snail',
+    texture = 'main',
 
     -- available states
     stateMachine = StateMachine {
@@ -27,6 +27,8 @@ function Snail:init(opt)
     level = opt.level,
     tileMap = opt.tileMap
   })
+
+  self.collidable = true
 
   self.inverseAnimation = 1
   self.direction = DIRECTION_RIGHT

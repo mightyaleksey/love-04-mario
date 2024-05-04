@@ -4,14 +4,19 @@ function GameObject:init(opt)
   -- position
   self.x = TILE_SIZE * (opt.mapX - 1)
   self.y = VIRTUAL_HEIGHT - TILE_SIZE * opt.mapY
+
   -- dimensions
   self.width = opt.width or TILE_SIZE
   self.height = opt.height or TILE_SIZE
   self.frame = opt.frame or 1
   self.frames = opt.frames
   self.texture = 'main'
+
   -- map coordinates
   defineProperties(self, opt, { 'mapX', 'mapY' })
+
+  -- properties
+  self.consumable = opt.consumable or false
 end
 
 function GameObject:render()

@@ -8,10 +8,14 @@ function Entity:init(opt)
   -- environment
   defineProperties(self, opt, { 'level', 'tileMap' })
 
+  self.collidable = false
   self.consumable = false
+
+  -- rendering
   self.currentAnimation = nil
   self.inverseAnimation = 0 -- 0 no inverse, 1 inverse
   self.direction = DIRECTION_RIGHT
+  self.frame = opt.frame
 
   -- velocity
   self.dx = 0
@@ -23,8 +27,10 @@ function Entity:render()
   love.graphics.setColor(1, 1, 1, 1)
 
   love.graphics.draw(
-    self.texture,
-    self.frames[self.currentAnimation:getCurrentFrame()],
+    gTextures[self.texture],
+    gFrames[self.frames][self.currentAnimation
+      and self.currentAnimation:getCurrentFrame()
+      or self.frame],
     self.x + inverse(self.direction, self.inverseAnimation) * self.width,
     self.y,
     0, -- rotate

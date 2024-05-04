@@ -11,8 +11,8 @@ function Player:init(opt)
     -- dimentions
     width = 16,
     height = 20,
-    frames = gFrames['player'],
-    texture = gTextures['main'],
+    frames = 'player',
+    texture = 'main',
 
     -- available states
     stateMachine = StateMachine {
@@ -45,13 +45,15 @@ end
 
 function Player:checkEntityCollisions()
   for k, target in ipairs(self.level.entities) do
-    if collides(self, target) then
-      target:onCollide(self)
+    if target.collidable then
+      if collides(self, target) then
+        target:onCollide(self)
 
-      if target.consumable then
-        -- consume
-      else
+        if target.consumable then
+          -- consume
+        else
 
+        end
       end
     end
 
