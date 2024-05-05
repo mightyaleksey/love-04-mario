@@ -22,6 +22,8 @@ function Ladder:init(opt)
     level = opt.level,
     tileMap = opt.tileMap
   })
+
+  self.collidable = true
 end
 
 function Ladder:render()
@@ -33,3 +35,12 @@ function Ladder:update(dt)
 end
 
 --[[ helpers ]]
+
+function Ladder:onCollide(player)
+  if
+    Keys.wasHolding('up') and
+    player.stateMachine.currentName ~= 'climbing'
+  then
+    player:changeState('climbing', self)
+  end
+end

@@ -16,10 +16,17 @@ function Player:init(opt)
 
     -- available states
     stateMachine = StateMachine {
+      idle = function () return PlayerIdleState(self) end,
+
+      -- enemies interaction
       bounce = function () return PlayerBounceState(self) end,
       escaping = function () return PlayerEscapingState(self) end,
+
+      -- ladder interaction
+      climbing = function () return PlayerClimbingState(self) end,
+
+      -- basic movement
       falling = function () return PlayerFallingState(self) end,
-      idle = function () return PlayerIdleState(self) end,
       jump = function () return PlayerJumpState(self) end,
       walking = function () return PlayerWalkingState(self) end
     },

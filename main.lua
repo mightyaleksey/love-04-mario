@@ -49,6 +49,19 @@ function love.load()
   Keys.setAlias('right', 'd')
   Keys.setAlias('up', 'w')
 
+  gSounds = {
+    death = love.audio.newSource('sounds/death.wav', 'static'),
+    emptyBlock = love.audio.newSource('sounds/empty-block.wav', 'static'),
+    jump = love.audio.newSource('sounds/jump.wav', 'static'),
+    kill = love.audio.newSource('sounds/kill.wav', 'static'),
+    kill2 = love.audio.newSource('sounds/kill2.wav', 'static'),
+    music = love.audio.newSource('sounds/music.wav', 'static'),
+    pickup = love.audio.newSource('sounds/pickup.wav', 'static'),
+    powerupReveal = love.audio.newSource('sounds/powerup-reveal.wav', 'static')
+  }
+
+  love.audio.setVolume(0.3)
+
   -- define game states
   gStateMachine = StateMachine {
     play = function () return GamePlayState() end,
