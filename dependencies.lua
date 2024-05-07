@@ -20,7 +20,10 @@ require 'src/TileMap'
 
 -- entities
 require 'src/Entity'
+require 'src/Flag'
+require 'src/Key'
 require 'src/Ladder'
+require 'src/Lock'
 require 'src/Player'
 require 'src/Pole'
 require 'src/Snail'

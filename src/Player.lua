@@ -36,11 +36,24 @@ function Player:init(opt)
     tileMap = opt.tileMap
   })
 
+  -- put consumable items here
+  self.items = {}
+
   self:changeState('falling')
 end
 
 function Player:render()
   Entity.render(self)
+
+  -- render collected items
+  for index, item in ipairs(self.items) do
+    love.graphics.draw(
+      gTextures['main'],
+      gFrames[item.frames][item.frame],
+      VIRTUAL_WIDTH - index * (TILE_SIZE + 2) - 8,
+      4
+    )
+  end
 end
 
 function Player:update(dt)
@@ -52,16 +65,22 @@ end
 
 function Player:checkEntityCollisions()
   for k, target in ipairs(self.level.entities) do
-    if target.collidable then
-      if collides(self, target) then
-        target:onCollide(self)
+    if
+      target.collidable and
+      collides(self, target)
+    then
+      target:onCollide(self)
+    end
 
-        if target.consumable then
-          -- consume
-        else
-
-        end
-      end
+    if
+      target.consumable and
+      collides(self, target, 8)
+    then
+      table.insert(self.items, {
+        frame = target.frame,
+        frames = target.frames
+      })
+      table.remove(self.level.entities, k)
     end
 
     if target.y > VIRTUAL_HEIGHT then

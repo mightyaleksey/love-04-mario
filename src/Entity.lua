@@ -10,6 +10,7 @@ function Entity:init(opt)
 
   self.collidable = false
   self.consumable = false
+  self.solid = false
 
   -- rendering
   self.currentAnimation = nil

@@ -61,19 +61,21 @@ end
 
 --[[ collisions ]]
 
-function collides(left, right)
+function collides(left, right, allowedOverlap)
+  allowedOverlap = allowedOverlap or 0
+
   if
     -- horizontal
-    left.x > right.x + right.width or
-    left.x + left.width < right.x
+    left.x > right.x + right.width - allowedOverlap or -- [ vs ]
+    left.x + left.width < right.x + allowedOverlap -- ] vs [
   then
     return false
   end
 
   if
     -- vertical
-    left.y > right.y + right.height or
-    left.y + left.height < right.y
+    left.y > right.y + right.height - allowedOverlap or
+    left.y + left.height < right.y + allowedOverlap
   then
     return false
   end
