@@ -16,7 +16,7 @@ function PlayerEscapingState:enter()
 end
 
 function PlayerEscapingState:update(dt)
-  self.entity.dy = self.entity.dy + self.gravity
+  self.entity.dy = self.entity.dy + self.gravity * dt
   self.entity.dx = PLAYER_WALK_SPEED * (1 - 2 * self.entity.direction)
   self.entity.x = self.entity.x + self.entity.dx * dt
   self.entity.y = self.entity.y + self.entity.dy * dt

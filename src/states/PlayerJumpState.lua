@@ -5,7 +5,7 @@ function PlayerJumpState:init(entity)
     frames = { 3 },
     interval = 1
   }
-  self.gravity = 6
+  self.gravity = PLAYER_FALL_SPEED
 
   self.entity = entity
   self.entity.currentAnimation = self.animation
@@ -37,7 +37,7 @@ function PlayerJumpState:update(dt)
   end
 
   -- update state
-  self.entity.dy = self.entity.dy + self.gravity
+  self.entity.dy = self.entity.dy + self.gravity * dt
   self.entity.y = self.entity.y + self.entity.dy * dt
 
   if self.entity.dy >= 0 then

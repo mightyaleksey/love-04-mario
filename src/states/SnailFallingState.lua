@@ -11,14 +11,9 @@ function SnailFallingState:init(entity)
   self.entity.currentAnimation = self.animation
 end
 
-function SnailFallingState:enter()
-  self.entity.dx = SNAIL_SLIDE_SPEED * (1 - 2 * self.entity.direction)
-  self.entity.dy = self.gravity
-end
-
 function SnailFallingState:update(dt)
   self.entity.dx = SNAIL_SLIDE_SPEED * (1 - 2 * self.entity.direction)
-  self.entity.dy = self.entity.dy + self.gravity
+  self.entity.dy = self.entity.dy + self.gravity * dt
   self.entity.x = self.entity.x + self.entity.dx * dt
   self.entity.y = self.entity.y + self.entity.dy * dt
   if self.entity:hasWalkCollision() then
