@@ -56,8 +56,7 @@ function generateEnemies(collection, level, columnStart, columnEnd, row)
         mapY = row,
 
         -- environment
-        level = level,
-        tileMap = level.tileMap
+        level = level
       })
 
       enemyDistance = math.random(5, 9)
@@ -190,8 +189,7 @@ function LevelMaker.generate(width, height)
       frame = f == floatingIslandHeight and 1 or 2,
 
       -- environment
-      level = level,
-      tileMap = level.tileMap
+      level = level
     })
   end
 
@@ -204,8 +202,7 @@ function LevelMaker.generate(width, height)
       frame = 4 - f,
 
       -- environment
-      level = level,
-      tileMap = level.tileMap
+      level = level
     })
   end
 
@@ -241,8 +238,7 @@ function LevelMaker.generate(width, height)
     frame = 3,
 
     -- environment
-    level = level,
-    tileMap = level.tileMap
+    level = level
   })
 
 
@@ -258,8 +254,7 @@ function LevelMaker.generate(width, height)
       frame = 3 + k,
 
       -- environment
-      level = level,
-      tileMap = level.tileMap
+      level = level
     })
   end
 

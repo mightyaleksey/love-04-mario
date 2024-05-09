@@ -6,7 +6,7 @@ function Entity:init(opt)
   -- dimensions
   defineProperties(self, opt, { 'width', 'height', 'frames', 'texture', 'stateMachine' })
   -- environment
-  defineProperties(self, opt, { 'level', 'tileMap' })
+  defineProperties(self, opt, { 'level' })
 
   self.collidable = false
   self.consumable = false
@@ -53,7 +53,7 @@ end
 function Entity:getTile(offsetX, offsetY)
   -- point position: [   ]
   --  bottom-middle: [ x ]
-  return self.tileMap:pointToTile(
+  return self.level.tileMap:pointToTile(
     self.x + 0.5 * self.width + (offsetX or 0),
     self.y + self.height + (offsetY or 0)
   )

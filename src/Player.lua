@@ -32,8 +32,7 @@ function Player:init(opt)
     },
 
     -- environment
-    level = opt.level,
-    tileMap = opt.tileMap
+    level = opt.level
   })
 
   -- put consumable items here

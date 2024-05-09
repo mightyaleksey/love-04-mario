@@ -19,8 +19,7 @@ function Ladder:init(opt)
     stateMachine = StateMachine {},
 
     -- environment
-    level = opt.level,
-    tileMap = opt.tileMap
+    level = opt.level
   })
 
   self.collidable = true
