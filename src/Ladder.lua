@@ -5,8 +5,8 @@ function Ladder:init(opt)
 
   Entity.init(self, {
     -- position
-    x = TILE_SIZE * ((opt.mapX or 1) - 1),
-    y = VIRTUAL_HEIGHT - TILE_SIZE * (opt.mapY or 1),
+    mapX = opt.mapX,
+    mapY = opt.mapY,
 
     -- dimentions
     width = 16,

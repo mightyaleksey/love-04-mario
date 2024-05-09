@@ -1,5 +1,6 @@
 -- external libs
 Class = require 'lib/class'
+Timer = require 'lib/knife.timer'
 push = require 'lib/push'
 
 -- local libs
@@ -38,12 +39,15 @@ require 'src/PoleGameObject'
 -- states
 require 'src/StateMachine'
 require 'src/states/BaseState'
+require 'src/states/FlagFloatingState'
+require 'src/states/FlagHangingState'
 require 'src/states/GamePlayState'
 require 'src/states/GameTestState'
 require 'src/states/PlayerBounceState'
 require 'src/states/PlayerClimbingState'
 require 'src/states/PlayerEscapingState'
 require 'src/states/PlayerFallingState'
+require 'src/states/PlayerHangingState'
 require 'src/states/PlayerIdleState'
 require 'src/states/PlayerJumpState'
 require 'src/states/PlayerWalkingState'

@@ -5,8 +5,8 @@ function Pole:init(opt)
 
   Entity.init(self, {
     -- position
-    x = TILE_SIZE * ((opt.mapX or 1) - 1),
-    y = VIRTUAL_HEIGHT - TILE_SIZE * (opt.mapY or 1),
+    mapX = opt.mapX,
+    mapY = opt.mapY,
 
     -- dimentions
     width = TILE_SIZE,
@@ -21,6 +21,8 @@ function Pole:init(opt)
     -- environment
     level = opt.level
   })
+
+  self.collidable = true
 end
 
 function Pole:render()
@@ -32,3 +34,9 @@ function Pole:update(dt)
 end
 
 --[[ helpers ]]
+
+function Pole:onCollide(player)
+  if self.level.collectedFlags == self.level.availableFlags then
+    player:changeState('hanging')
+  end
+end

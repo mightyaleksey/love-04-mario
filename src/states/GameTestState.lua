@@ -23,7 +23,13 @@ function GameTestState:render()
   local columns = math.floor(VIRTUAL_WIDTH / columnWidth)
   local offsetRow = 0
 
-  local tilePacks = { gFrames['tiles'], gFrames['tileTops'], gFrames['water'] }
+  local tilePacks = {
+    gFrames['tiles'],
+    gFrames['tileTops'],
+    gFrames['water'],
+    gFrames['flags'],
+    gFrames['poles']
+  }
 
   love.graphics.translate(0, self.scrollY)
   love.graphics.setColor(1, 1, 1, 1)
@@ -36,6 +42,14 @@ function GameTestState:render()
 end
 
 function GameTestState:update()
+  if Keys.wasPressed('escape') then
+    love.event.quit()
+  end
+
+  if Keys.wasPressed('t') then
+    gStateMachine:change('play')
+  end
+
   if Keys.wasPressed('up') then
     self.scrollY = math.min(self.scrollY + 30, 0)
   elseif Keys.wasPressed('down') then

@@ -2,7 +2,9 @@ Entity = Class{}
 
 function Entity:init(opt)
   -- position
-  defineProperties(self, opt, { 'x', 'y' })
+  defineProperties(self, opt, { 'mapX', 'mapY' })
+  self.x = opt.x or TILE_SIZE * (opt.mapX - 1)
+  self.y = opt.y or VIRTUAL_HEIGHT - TILE_SIZE * opt.mapY
   -- dimensions
   defineProperties(self, opt, { 'width', 'height', 'frames', 'texture', 'stateMachine' })
   -- environment

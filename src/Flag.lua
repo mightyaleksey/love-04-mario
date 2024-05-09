@@ -5,22 +5,29 @@ function Flag:init(opt)
 
   Entity.init(self, {
     -- position
-    x = TILE_SIZE * ((opt.mapX or 1) - 1),
-    y = VIRTUAL_HEIGHT - TILE_SIZE * (opt.mapY or 1),
+    mapX = opt.mapX,
+    mapY = opt.mapY,
+    x = TILE_SIZE * ((opt.mapX or 1) - 1) + 8,
 
     -- dimentions
     width = TILE_SIZE,
     height = TILE_SIZE,
-    frame = opt.frame or 1,
     frames = 'flags',
     texture = 'main',
 
     -- available states
-    stateMachine = StateMachine {},
+    stateMachine = StateMachine {
+      floating = function () return FlagFloatingState(self) end,
+      hanging = function () return FlagHangingState(self) end
+    },
 
     -- environment
     level = opt.level
   })
+
+  self.color = opt.color or 1
+
+  self:changeState('hanging')
 end
 
 function Flag:render()

@@ -2,9 +2,14 @@
 GameLevel = Class{}
 
 function GameLevel:init(tileMap, entities, objects)
+  -- collections
   self.entities = entities or {}
   self.objects = objects or {}
   self.tileMap = tileMap
+
+  -- level state
+  self.collectedFlags = 0
+  self.availableFlags = 2
 end
 
 function GameLevel:render(scrollX)
