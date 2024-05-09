@@ -48,6 +48,20 @@ function GamePlayState:render()
     love.graphics.print('mapY: '..tostring(mapY), 5, 44)
   end
 
+  -- Render collected items.
+  -- Move the logic here to avoid necessity to render it
+  -- based on camX, camY.
+  love.graphics.setColor(1, 1, 1, 0.9)
+
+  for index, item in ipairs(self.player.items) do
+    love.graphics.draw(
+      gTextures['main'],
+      gFrames[item.frames][item.frame],
+      VIRTUAL_WIDTH - index * (TILE_SIZE + 2) - 8,
+      4
+    )
+  end
+
   -- emulate camera effect
   love.graphics.translate(-round(self.camX), -round(self.camY))
 

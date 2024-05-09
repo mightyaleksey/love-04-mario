@@ -43,16 +43,6 @@ end
 
 function Player:render()
   Entity.render(self)
-
-  -- render collected items
-  for index, item in ipairs(self.items) do
-    love.graphics.draw(
-      gTextures['main'],
-      gFrames[item.frames][item.frame],
-      VIRTUAL_WIDTH - index * (TILE_SIZE + 2) - 8,
-      4
-    )
-  end
 end
 
 function Player:update(dt)
