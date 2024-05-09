@@ -32,6 +32,20 @@ function PlayerClimbingState:update(dt)
     self.entity.dy = Keys.wasHolding('down') and PLAYER_CLIMB_SPEED or -PLAYER_CLIMB_SPEED
     self.entity.y = self.entity.y + self.entity.dy * dt
 
+    if -- fix horizontal position
+      self.entity.x ~= self.ladder.x and
+      not Keys.wasHolding('left') and
+      not Keys.wasHolding('right')
+    then
+      if math.abs(self.entity.x - self.ladder.x) < 1 then
+        self.entity.x = self.ladder.x
+      else
+        -- todo think about helper to map value to -1 or 1
+        self.entity.dx = self.entity.x < self.ladder.x and 0.5 * PLAYER_CLIMB_SPEED or -0.5 * PLAYER_CLIMB_SPEED
+        self.entity.x = self.entity.x + self.entity.dx * dt
+      end
+    end
+
     self.animation:update(dt)
   end
 

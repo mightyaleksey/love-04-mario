@@ -37,7 +37,7 @@ end
 
 function Ladder:onCollide(player)
   if
-    Keys.wasHolding('up') and
+    (Keys.wasHolding('down') or Keys.wasHolding('up')) and
     player.stateMachine.currentName ~= 'climbing'
   then
     player:changeState('climbing', self)

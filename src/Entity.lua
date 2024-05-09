@@ -50,6 +50,28 @@ function Entity:changeState(name, opt)
   self.stateMachine:change(name, opt)
 end
 
+-- not the best solution,
+-- however, a way to get static entities
+function Entity:getEntity(offsetX, offsetY)
+  local mapX, mapY = self.level.tileMap:pointToMap(
+    self.x + 0.5 * self.width + (offsetX or 0),
+    self.y + self.height + (offsetY or 0)
+  )
+  -- position
+  local x = TILE_SIZE * (mapX - 1)
+  local y = VIRTUAL_HEIGHT - TILE_SIZE * mapY
+
+  for _, entity in ipairs(self.level.entities) do
+    if
+      entity ~= self and
+      entity.x == x and
+      entity.y == y
+    then
+      return entity
+    end
+  end
+end
+
 function Entity:getTile(offsetX, offsetY)
   -- point position: [   ]
   --  bottom-middle: [ x ]
