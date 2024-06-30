@@ -16,22 +16,22 @@ function Player:init(opt)
 
     -- available states
     stateMachine = StateMachine {
-      idle = function () return PlayerIdleState(self) end,
+      ['idle'] = function () return PlayerIdleState(self) end,
 
       -- enemies interaction
-      bounce = function () return PlayerBounceState(self) end,
-      escaping = function () return PlayerEscapingState(self) end,
+      ['bounce'] = function () return PlayerBounceState(self) end,
+      ['escaping'] = function () return PlayerEscapingState(self) end,
 
       -- flag interaction
-      hanging = function () return PlayerHangingState(self) end,
+      ['hanging'] = function () return PlayerHangingState(self) end,
 
       -- ladder interaction
-      climbing = function () return PlayerClimbingState(self) end,
+      ['climbing'] = function () return PlayerClimbingState(self) end,
 
       -- basic movement
-      falling = function () return PlayerFallingState(self) end,
-      jump = function () return PlayerJumpState(self) end,
-      walking = function () return PlayerWalkingState(self) end
+      ['falling'] = function () return PlayerFallingState(self) end,
+      ['jump'] = function () return PlayerJumpState(self) end,
+      ['walking'] = function () return PlayerWalkingState(self) end
     },
 
     -- environment
@@ -73,6 +73,8 @@ function Player:checkEntityCollisions()
         frames = target.frames
       })
       table.remove(self.level.entities, k)
+
+      gSounds['pickup']:play()
     end
 
     if target.y > VIRTUAL_HEIGHT then

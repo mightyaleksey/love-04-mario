@@ -1,4 +1,4 @@
-require 'dependencies'
+require 'src/Dependencies'
 
 --[[ load & rendering ]]
 
