@@ -1,6 +1,6 @@
-GamePlayState = Class{__includes = BaseState}
+PlayState = Class{__includes = BaseState}
 
-function GamePlayState:enter(opt)
+function PlayState:enter(opt)
   local x, y, backgroundWidth, backgroundHeight = gFrames['bg'][1]:getViewport()
   local levelWidth = opt and opt.width or 36
 
@@ -28,7 +28,7 @@ function GamePlayState:enter(opt)
   }
 end
 
-function GamePlayState:render()
+function PlayState:render()
   -- reset color
   love.graphics.setColor(1, 1, 1, 1)
 
@@ -69,7 +69,7 @@ function GamePlayState:render()
   self.player:render()
 end
 
-function GamePlayState:update(dt)
+function PlayState:update(dt)
   if Keys.wasPressed('escape') then
     love.event.quit()
   end
@@ -100,7 +100,7 @@ end
 
 --[[ helpers ]]
 
-function GamePlayState:renderBg()
+function PlayState:renderBg()
   local posX = 0.3 * self.camX % self.backgroundLoopingPoint
   local scale = self.backgroundScale
 

@@ -62,11 +62,12 @@ function love.load()
 
   -- define game states
   gStateMachine = StateMachine {
-    ['levelComplete'] = function () return GameLevelCompleteState() end,
-    ['play'] = function () return GamePlayState() end,
-    ['test'] = function () return GameTestState() end
+    ['levelComplete'] = function () return LevelCompleteState() end,
+    ['play'] = function () return PlayState() end,
+    ['start'] = function () return StartState() end,
+    ['test'] = function () return TestState() end
   }
-  gStateMachine:change('play')
+  gStateMachine:change('start')
 
   gSounds['music']:setLooping(true)
   gSounds['music']:setVolume(0.7)

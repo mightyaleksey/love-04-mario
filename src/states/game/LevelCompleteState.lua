@@ -1,6 +1,6 @@
-GameLevelCompleteState = Class{__includes = BaseState}
+LevelCompleteState = Class{__includes = BaseState}
 
-function GameLevelCompleteState:enter(opt)
+function LevelCompleteState:enter(opt)
   self.backgroundScale = opt.backgroundScale
   self.backgroundLoopingPoint = opt.backgroundLoopingPoint
   self.camX = opt.camX
@@ -9,7 +9,7 @@ function GameLevelCompleteState:enter(opt)
   self.player = opt.player
 end
 
-function GameLevelCompleteState:render()
+function LevelCompleteState:render()
   -- reset color
   love.graphics.setColor(1, 1, 1, 1)
 
@@ -44,7 +44,7 @@ function GameLevelCompleteState:render()
   )
 end
 
-function GameLevelCompleteState:update(dt)
+function LevelCompleteState:update(dt)
   if Keys.wasPressed('escape') then
     love.event.quit()
   end
@@ -58,7 +58,7 @@ end
 
 -- [[ helpers ]]
 
-function GameLevelCompleteState:renderBg()
+function LevelCompleteState:renderBg()
   local posX = 0.3 * self.camX % self.backgroundLoopingPoint
   local scale = self.backgroundScale
 

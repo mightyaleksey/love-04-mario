@@ -12,13 +12,13 @@ end
 
 --[[ implementation ]]
 
-GameTestState = Class{__includes = BaseState}
+TestState = Class{__includes = BaseState}
 
-function GameTestState:enter()
+function TestState:enter()
   self.scrollY = 0
 end
 
-function GameTestState:render()
+function TestState:render()
   local columnWidth = 20
   local columns = math.floor(VIRTUAL_WIDTH / columnWidth)
   local offsetRow = 0
@@ -41,7 +41,7 @@ function GameTestState:render()
   end
 end
 
-function GameTestState:update()
+function TestState:update()
   if Keys.wasPressed('escape') then
     love.event.quit()
   end
