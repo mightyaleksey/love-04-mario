@@ -17,11 +17,11 @@ function Snail:init(opt)
 
     -- available states
     stateMachine = StateMachine {
-      falling = function () return SnailFallingState(self) end,
-      hidden = function () return SnailHiddenState(self) end,
-      idle = function () return SnailIdleState(self) end,
-      sliding = function () return SnailSlidingState(self) end,
-      walking = function () return SnailWalkingState(self) end
+      ['falling'] = function () return SnailFallingState(self) end,
+      ['hidden'] = function () return SnailHiddenState(self) end,
+      ['idle'] = function () return SnailIdleState(self) end,
+      ['sliding'] = function () return SnailSlidingState(self) end,
+      ['walking'] = function () return SnailWalkingState(self) end
     },
 
     -- environment
@@ -53,8 +53,10 @@ function Snail:onCollide(player)
     if playerState == 'falling' then
       self:changeState('hidden')
       player:changeState('bounce')
+      gSounds['kill']:play()
     elseif playerState ~= 'escaping' then
       player:changeState('escaping')
+      gSounds['kill2']:play()
     end
   elseif self.stateMachine.currentName == 'hidden' then
     if
@@ -67,10 +69,12 @@ function Snail:onCollide(player)
         and player.x - self.width
         or player.x + player.width
       self:changeState('sliding')
+      gSounds['kill']:play()
     end
   elseif self.stateMachine.currentName == 'sliding' then
     if playerState ~= 'escaping' then
       player:changeState('escaping')
+      gSounds['kill2']:play()
     end
   end
 end

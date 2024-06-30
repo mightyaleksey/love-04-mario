@@ -65,6 +65,8 @@ function Lock:onCollide(player)
 
       table.insert(self.level.entities, flag)
       table.remove(player.items, index)
+
+      gSounds['powerupReveal']:play()
     end
   end
 end

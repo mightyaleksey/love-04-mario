@@ -60,8 +60,6 @@ function love.load()
     ['powerupReveal'] = love.audio.newSource('sounds/powerup-reveal.wav', 'static')
   }
 
-  love.audio.setVolume(0.3)
-
   -- define game states
   gStateMachine = StateMachine {
     ['levelComplete'] = function () return GameLevelCompleteState() end,
@@ -69,6 +67,10 @@ function love.load()
     ['test'] = function () return GameTestState() end
   }
   gStateMachine:change('play')
+
+  gSounds['music']:setLooping(true)
+  gSounds['music']:setVolume(0.7)
+  gSounds['music']:play()
 end
 
 function love.draw()
