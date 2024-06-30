@@ -26,6 +26,7 @@ function Flag:init(opt)
   })
 
   self.color = opt.color or 1
+  self.collidable = true
 
   self:changeState('hanging')
 end
@@ -37,3 +38,22 @@ end
 function Flag:update(dt)
   Entity.update(self, dt)
 end
+
+-- [[ helpers ]]
+
+function Flag:onCollide(player)
+  if self.stateMachine.currentName == 'floating' then
+    local currentState = gStateMachine.current
+
+    gStateMachine:change('levelComplete', {
+      backgroundScale = currentState.backgroundScale,
+      backgroundLoopingPoint = currentState.backgroundLoopingPoint,
+      camX = currentState.camX,
+      camY = currentState.camY,
+      level = currentState.level,
+      player = currentState.player,
+    })
+  end
+end
+
+

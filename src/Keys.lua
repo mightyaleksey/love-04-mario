@@ -50,8 +50,13 @@ end
 
 function Keys.update()
   for key in pairs(Keys._checked) do
-    Keys._checked[key] = nil
     Keys._pressed[key] = nil
+  end
+
+  for originalKey, key in pairs(Keys._alias) do
+    if Keys._checked[originalKey] then
+      Keys._pressed[key] = nil
+    end
   end
 end
 

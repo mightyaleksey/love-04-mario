@@ -1,7 +1,8 @@
 GamePlayState = Class{__includes = BaseState}
 
-function GamePlayState:enter()
+function GamePlayState:enter(opt)
   local x, y, backgroundWidth, backgroundHeight = gFrames['bg'][1]:getViewport()
+  local levelWidth = opt and opt.width or 28 -- set to 64
 
   -- background
   self.backgroundScale = VIRTUAL_HEIGHT / backgroundHeight
@@ -10,8 +11,7 @@ function GamePlayState:enter()
   self.camX = 0
   self.camY = 0
   -- level specific
-  self.level = LevelMaker.generate(28, 18)
-  -- self.level = LevelMaker.generate(64, 18)
+  self.level = LevelMaker.generate(levelWidth, 18)
   self.tileMap = self.level.tileMap
 
   local startX = findIndex(self.tileMap.tiles, function (column)
@@ -72,10 +72,6 @@ end
 function GamePlayState:update(dt)
   if Keys.wasPressed('escape') then
     love.event.quit()
-  end
-
-  if Keys.wasPressed('t') then
-    gStateMachine:change('test')
   end
 
   if Keys.wasPressed('y') then

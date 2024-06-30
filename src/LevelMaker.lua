@@ -231,7 +231,7 @@ function LevelMaker.generate(width, height)
   -- for the floating island
   generateEnvironment(level.objects, polePosition - 8, polePosition - 3, floatingIslandHeight)
 
-  -- test
+  -- todo: fix position
   table.insert(level.entities, Key {
     mapX = 3,
     mapY = 5,
@@ -241,22 +241,19 @@ function LevelMaker.generate(width, height)
     level = level
   })
 
-
-  -- render locks
+  -- render lock
   local lockPosition = ladderPosition - polePosition + 8 > 3
     and polePosition - 8
     or polePosition - 4
 
-  for k = 0, 1 do
-    table.insert(level.entities, Lock {
-      mapX = k + lockPosition,
-      mapY = floatingIslandHeight + 1,
-      frame = 3 + k,
+  table.insert(level.entities, Lock {
+    mapX = lockPosition,
+    mapY = floatingIslandHeight + 1,
+    frame = 3,
 
-      -- environment
-      level = level
-    })
-  end
+    -- environment
+    level = level
+  })
 
   return level
 end
