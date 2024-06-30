@@ -2,7 +2,7 @@ GamePlayState = Class{__includes = BaseState}
 
 function GamePlayState:enter(opt)
   local x, y, backgroundWidth, backgroundHeight = gFrames['bg'][1]:getViewport()
-  local levelWidth = opt and opt.width or 28 -- set to 64
+  local levelWidth = opt and opt.width or 36
 
   -- background
   self.backgroundScale = VIRTUAL_HEIGHT / backgroundHeight

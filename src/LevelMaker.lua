@@ -232,9 +232,12 @@ function LevelMaker.generate(width, height)
   generateEnvironment(level.objects, polePosition - 8, polePosition - 3, floatingIslandHeight)
 
   -- todo: fix position
+  local keyX = findIndex(tiles, isIslandPredicate, math.floor(0.5 * width))
+  local keyY = findLastIndex(tiles[keyX], isGroundPredicate, floatingIslandHeight - 1) + 2
+
   table.insert(level.entities, Key {
-    mapX = 3,
-    mapY = 5,
+    mapX = keyX,
+    mapY = keyY,
     frame = 3,
 
     -- environment
